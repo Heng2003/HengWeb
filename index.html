@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heng Wang</title>
+    <meta name="description" content="Personal website of Heng Wang, a PhD student in Physics and Astronomy at Stony Brook University. Research interests include strongly correlated systems, topological materials, and quantum many-body theory.">
+    <meta name="keywords" content="Heng Wang, 王恒, Physics, Stony Brook University, PhD Student, Strongly Correlated Systems, Topological Materials, Quantum Many-Body Theory, UNI-Lab, Mengkun Liu">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+
+    <div class="loading-screen">
+        <div class="spinner"></div>
+    </div>
 
     <nav class="navbar">
         <div class="container">
@@ -42,8 +48,8 @@
             <div class="slide" style="background-image: url('images/slide3.jpg')"></div>
         </div>
         <div class="hero-content">
-            <h1 class="en">Heng Wang</h1>
-            <h1 class="zh hidden">王恒</h1>
+            <h1 class="en">Heng Wang (Website building in progress. The information in the page could be wrong)</h1>
+            <h1 class="zh hidden">王恒 （网站建设中，所有展出信息可能不正确</h1>
             <div class="subtitle en">PhD Student in Physics, Stony Brook University</div>
             <div class="subtitle zh hidden">石溪大学物理系博士研究生</div>
             <div class="social-links">
@@ -77,7 +83,7 @@
                         </div>
                     </div>
                     <div class="zh hidden">
-                        <p>您好！我是石溪大学物理与天文系的博士研究生，在Mengkun Liu教授的超快与近场红外实验室(UNI-Lab)工作。</p>
+                        <p>你好！我是石溪大学物理与天文系的博士研究生，在Mengkun Liu教授的超快与近场红外实验室(UNI-Lab)工作。</p>
                         <p>在加入石溪大学之前，我于2024年通过石溪大学与安徽大学的联合培养项目获得了物理学双学士学位。</p>
                         <div class="interests">
                             <h3>研究兴趣</h3>
@@ -91,7 +97,7 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <img src="images/profile.jpg" alt="Heng Wang" class="profile-img circle">
+                     <img src="images/profile.jpg" alt="Heng Wang" class="profile-img circle">
                 </div>
             </div>
         </section>
@@ -163,8 +169,8 @@
 
         <section id="publications" class="section">
             <h2 class="section-title en">Selected Publications</h2>
-            <h2 class="section-title zh hidden">Selected Publications</h2>
-            
+            <h2 class="section-title zh hidden">发表文章</h2> 
+
             <div class="publications-list">
                 <div class="pub-item" data-category="journal">
                     <div class="pub-content">
@@ -176,17 +182,16 @@
                         </div>
                     </div>
                     <div class="pub-links">
-                        <a href="https://doi.org/10.1063/5.0195704" 
-                           class="pub-link" 
+                        <a href="https://doi.org/10.1063/5.0195704"
+                           class="pub-link"
                            title="View Article"
                            target="_blank">
                             <i class="fas fa-external-link-alt"></i>
                         </a>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Full Publications链接 -->
+                </div>
+
             <div class="full-publications-link">
                 <a href="https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en&authuser=1" target="_blank" class="en">
                     <i class="fas fa-external-link-alt"></i> Full Publications on Google Scholar
@@ -209,14 +214,16 @@
                     <div class="info-item">
                         <i class="fas fa-building"></i>
                         <span class="en">Physics Building</span>
-                        <span class="zh hidden">物理楼</span>
+                        <span class="zh hidden">Physics Building</span>
                     </div>
                     <div class="info-item">
                         <i class="fas fa-map-marker-alt"></i>
                         <span>Stony Brook University, Stony Brook, NY 11794</span>
                     </div>
                 </div>
-                <form class="contact-form" id="emailForm">
+                <form class="contact-form" id="emailForm" action="https://formsubmit.co/heng.wang@stonybrook.edu" method="POST">
+                    <input type="hidden" name="_subject" value="Web Request - New Message"> <input type="hidden" name="_replyto">
+
                     <div class="form-group">
                         <input type="text" name="name" placeholder="Your Name" required>
                     </div>
@@ -224,11 +231,13 @@
                         <input type="email" name="email" placeholder="Your Email" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="subject" placeholder="Subject" required>
-                    </div>
+                        <input type="text" name="User Subject" placeholder="Subject" required> </div>
                     <div class="form-group">
                         <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
                     </div>
+
+                    <div id="form-status" style="margin-bottom: 15px; text-align: center; color: var(--primary-color);"></div>
+
                     <button type="submit" class="btn en">Send Message</button>
                     <button type="submit" class="btn zh hidden">发送消息</button>
                 </form>
@@ -242,8 +251,7 @@
                 <div class="copyright en">© 2025 Heng Wang</div>
                 <div class="copyright zh hidden">© 2025 王恒</div>
                 <div class="back-to-top">
-                    <a href="#" class="en">↑</a>
-                    <a href="#" class="zh hidden">↑</a>
+                    <a href="#">↑</a>
                 </div>
             </div>
         </div>
