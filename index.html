@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heng Wang</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo en">Heng Wang</a>
+            <a href="#" class="logo zh hidden">王恒</a>
+            <div class="nav-links">
+                <a href="#about" class="en">About</a>
+                <a href="#about" class="zh hidden">关于</a>
+                <a href="#research" class="en">Research</a>
+                <a href="#research" class="zh hidden">研究</a>
+                <a href="#publications" class="en">Publications</a>
+                <a href="#publications" class="zh hidden">发表文章</a>
+                <a href="#contact" class="en">Contact</a>
+                <a href="#contact" class="zh hidden">联系方式</a>
+            </div>
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="zh">中文</button>
+            </div>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="slideshow-container">
+            <div class="slide active" style="background-image: url('images/e539155b7a035c280fdac6b049b903eb_edited_.avif')"></div>
+            <div class="slide" style="background-image: url('images/slide2.jpg')"></div>
+            <div class="slide" style="background-image: url('images/slide3.jpg')"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="en">Heng Wang</h1>
+            <h1 class="zh hidden">王恒</h1>
+            <div class="subtitle en">PhD Student in Physics, Stony Brook University</div>
+            <div class="subtitle zh hidden">石溪大学物理系博士研究生</div>
+            <div class="social-links">
+                <a href="https://github.com/Heng2003" class="tooltip" data-tooltip="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en&authuser=1" class="tooltip" data-tooltip="Google Scholar"><i class="fab fa-google"></i></a>
+                <a href="https://orcid.org/0009-0008-1628-020X" class="tooltip" data-tooltip="ORCID"><i class="fab fa-orcid"></i></a>
+            </div>
+            <a href="#about" class="scroll-down">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="about" class="section">
+            <h2 class="section-title en">About Me</h2>
+            <h2 class="section-title zh hidden">个人简介</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="en">
+                        <p>Hi! I am a PhD student in the Department of Physics and Astronomy at Stony Brook University, working with Prof. Mengkun Liu in the Ultrafast & Near-field Infrared Laboratory (UNI- Lab).</p>
+                        <p>Before joining Stony Brook, I received two B.S. in Physics from a joint program between Stony Brook University and Anhui University in 2024</p>
+                        <div class="interests">
+                            <h3>Research Interests</h3>
+                            <div class="tags">
+                                <span class="tag">Strongly correlated systems</span>
+                                <span class="tag">Topological materials</span>
+                                <span class="tag">Quantum many-body theory</span>
+                                <span class="tag">Numerical methods</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="zh hidden">
+                        <p>您好！我是石溪大学物理与天文系的博士研究生，在Mengkun Liu教授的超快与近场红外实验室(UNI-Lab)工作。</p>
+                        <p>在加入石溪大学之前，我于2024年通过石溪大学与安徽大学的联合培养项目获得了物理学双学士学位。</p>
+                        <div class="interests">
+                            <h3>研究兴趣</h3>
+                            <div class="tags">
+                                <span class="tag">强关联系统</span>
+                                <span class="tag">拓扑材料</span>
+                                <span class="tag">量子多体理论</span>
+                                <span class="tag">数值方法</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="images/profile.jpg" alt="Heng Wang" class="profile-img circle">
+                </div>
+            </div>
+        </section>
+
+        <section id="research" class="section">
+            <h2 class="section-title en">Research</h2>
+            <h2 class="section-title zh hidden">研究方向</h2>
+            <div class="research-tabs">
+                <button class="tab-btn active" data-tab="current">Current Projects</button>
+                <button class="tab-btn" data-tab="past">Past Projects</button>
+            </div>
+            <div class="tab-content active" id="current">
+                <div class="research-item">
+                    <h3 class="en">Non-equilibrium dynamics in quantum materials</h3>
+                    <h3 class="zh hidden">量子材料中的非平衡动力学</h3>
+                    <div class="en">
+                        <p>Developing new numerical methods to study the time evolution of strongly correlated systems under external perturbations.</p>
+                        <p>This project involves:</p>
+                        <ul class="research-list">
+                            <li>Developing tensor network algorithms</li>
+                            <li>Implementing parallel computing techniques</li>
+                            <li>Analyzing experimental data</li>
+                        </ul>
+                    </div>
+                    <div class="zh hidden">
+                        <p>开发新的数值方法来研究强关联系统在外界扰动下的时间演化。</p>
+                        <p>本项目包括：</p>
+                        <ul class="research-list">
+                            <li>开发张量网络算法</li>
+                            <li>实现并行计算技术</li>
+                            <li>分析实验数据</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="research-item">
+                    <h3 class="en">Machine learning for electronic structure</h3>
+                    <h3 class="zh hidden">电子结构的机器学习</h3>
+                    <div class="en">
+                        <p>Applying neural networks to predict material properties and accelerate first-principles calculations.</p>
+                    </div>
+                    <div class="zh hidden">
+                        <p>应用神经网络预测材料性质并加速第一性原理计算。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="past">
+                <div class="research-item">
+                    <h3 class="en">Topological superconductivity</h3>
+                    <h3 class="zh hidden">拓扑超导性</h3>
+                    <div class="en">
+                        <p>Investigated the emergence of Majorana fermions in hybrid semiconductor-superconductor nanostructures.</p>
+                    </div>
+                    <div class="zh hidden">
+                        <p>研究了混合半导体-超导体纳米结构中马约拉纳费米子的出现。</p>
+                    </div>
+                </div>
+                <div class="research-item">
+                    <h3 class="en">Quantum transport</h3>
+                    <h3 class="zh hidden">量子输运</h3>
+                    <div class="en">
+                        <p>Studied the effects of disorder on conductance in Weyl semimetals.</p>
+                    </div>
+                    <div class="zh hidden">
+                        <p>研究了无序对Weyl半金属中电导的影响。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="publications" class="section">
+            <h2 class="section-title en">Selected Publications</h2>
+            <h2 class="section-title zh hidden">Selected Publications</h2>
+            
+            <div class="publications-list">
+                <div class="pub-item" data-category="journal">
+                    <div class="pub-content">
+                        <div class="pub-title">Tunable anomalous Hall effect and Curie temperature in perpendicular magnetic anisotropic lanthanum doped NiCo<sub>2</sub>O<sub>4</sub> film</div>
+                        <div class="pub-authors">Yi Zhang, Xuegang Chen, Xianghao Ji, <strong>Heng Wang</strong>, Biao Zheng, Mingzhu Xue, Jinbo Yang, Mingliang Tian</div>
+                        <div class="pub-journal">Applied Physics Letters 124, 091905 (26 February 2024)</div>
+                        <div class="pub-doi">
+                            <a href="https://doi.org/10.1063/5.0195704" target="_blank">https://doi.org/10.1063/5.0195704</a>
+                        </div>
+                    </div>
+                    <div class="pub-links">
+                        <a href="https://doi.org/10.1063/5.0195704" 
+                           class="pub-link" 
+                           title="View Article"
+                           target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Full Publications链接 -->
+            <div class="full-publications-link">
+                <a href="https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en&authuser=1" target="_blank" class="en">
+                    <i class="fas fa-external-link-alt"></i> Full Publications on Google Scholar
+                </a>
+                <a href="https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en&authuser=1" target="_blank" class="zh hidden">
+                    <i class="fas fa-external-link-alt"></i> 完整发表文章 - Google Scholar
+                </a>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2 class="section-title en">Contact</h2>
+            <h2 class="section-title zh hidden">联系方式</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:heng.wang@stonybrook.edu">heng.wang@stonybrook.edu</a>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-building"></i>
+                        <span class="en">Physics Building</span>
+                        <span class="zh hidden">物理楼</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Stony Brook University, Stony Brook, NY 11794</span>
+                    </div>
+                </div>
+                <form class="contact-form" id="emailForm">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="subject" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn en">Send Message</button>
+                    <button type="submit" class="btn zh hidden">发送消息</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright en">© 2025 Heng Wang</div>
+                <div class="copyright zh hidden">© 2025 王恒</div>
+                <div class="back-to-top">
+                    <a href="#" class="en">↑</a>
+                    <a href="#" class="zh hidden">↑</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
