@@ -49,7 +49,7 @@
         </div>
         <div class="hero-content">
             <h1 class="en">Heng Wang (Website building in progress. The information in the page could be wrong)</h1>
-            <h1 class="zh hidden">王恒 （网站建设中，所有展出信息可能不正确</h1>
+            <h1 class="zh hidden">王恒 （网站建设中，所有展出信息可能不正确）</h1>
             <div class="subtitle en">PhD Student in Physics, Stony Brook University</div>
             <div class="subtitle zh hidden">石溪大学物理系博士研究生</div>
             <div class="social-links">
@@ -222,8 +222,10 @@
                     </div>
                 </div>
                 <form class="contact-form" id="emailForm" action="https://formsubmit.co/heng.wang@stonybrook.edu" method="POST">
-                    <input type="hidden" name="_subject" value="Web Request - New Message"> <input type="hidden" name="_replyto">
-
+                    <input type="hidden" name="_subject" value="Web Request - New Message">
+                    <input type="hidden" name="_replyto">
+                    <input type="hidden" name="_next" value="https://heng2003.github.io/HengWeb/">
+    
                     <div class="form-group">
                         <input type="text" name="name" placeholder="Your Name" required>
                     </div>
@@ -231,13 +233,14 @@
                         <input type="email" name="email" placeholder="Your Email" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="User Subject" placeholder="Subject" required> </div>
+                        <input type="text" name="User Subject" placeholder="Subject" required>
+                    </div>
                     <div class="form-group">
                         <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
                     </div>
-
+    
                     <div id="form-status" style="margin-bottom: 15px; text-align: center; color: var(--primary-color);"></div>
-
+    
                     <button type="submit" class="btn en">Send Message</button>
                     <button type="submit" class="btn zh hidden">发送消息</button>
                 </form>
