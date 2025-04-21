@@ -1,1 +1,4 @@
+User-agent: *
+Allow: /
+
 Sitemap: https://hengwang.org/sitemap.xml
