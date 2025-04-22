@@ -219,10 +219,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- Contact form submission feedback ---
+    // Inside the 'submit' event listener for emailForm
     if (emailForm) {
         emailForm.addEventListener('submit', function(e) {
             const formStatus = document.getElementById('form-status');
             const submitButtons = this.querySelectorAll('button[type="submit"]');
+            const userEmailInput = this.querySelector('input[name="email"]'); // Get email input
+            const replyToInput = this.querySelector('input[name="_replyto"]'); // Get hidden _replyto input
+
+            // Set the _replyto field value
+            if (userEmailInput && replyToInput) {
+                replyToInput.value = userEmailInput.value;
+            }
+
             if(formStatus) formStatus.textContent = 'Sending...';
             submitButtons.forEach(button => button.disabled = true);
             // FormSubmit handles the rest
