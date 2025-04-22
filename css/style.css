@@ -331,7 +331,7 @@ body {
 /* Content Sections                    */
 /* ===================================== */
 .section {
-    padding: 80px 20px;
+    padding: 40px 20px;
     background-color: var(--card-bg);
     margin: 40px 0; /* Increased margin between sections */
     border-radius: 10px;
