@@ -1,36 +1,77 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en"> 
+    
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Heng Wang's Personal Website</title>
 
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="images/android-chrome-192x192.png">
-
     <meta name="description" content="Personal website of Heng Wang, a PhD student in Physics and Astronomy at Stony Brook University. Research interests include strongly correlated systems, topological materials, and quantum many-body theory.">
     <meta name="keywords" content="Heng Wang, 王恒, Physics, Stony Brook University, PhD Student, Strongly Correlated Systems, Topological Materials, Quantum Many-Body Theory, UNI-Lab, Mengkun Liu">
     
+    <link rel="canonical" href="https://hengwang.org/" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"> 
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"> 
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png"> 
+    <link rel="icon" type="image/png" sizes="192x192" href="images/android-chrome-192x192.png"> 
+
+    <meta property="og:title" content="Heng Wang's Personal Website" />
+    <meta property="og:description" content="Personal website of Heng Wang, a PhD student in Physics and Astronomy at Stony Brook University." />
+    <meta property="og:image" content="https://hengwang.org/images/profile.jpg" /> <meta property="og:url" content="https://hengwang.org/" />
+    <meta property="og:type" content="website" />
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <script type="application/ld+json">
-        {
-          "@context" : "https://schema.org",
-          "@type" : "WebSite",
-          "name" : "Heng Wang's Personal Website", // 你希望显示的网站名称
-          "alternateName": "Heng Wang", // 可选的替代名称
-          "url" : "https://hengwang.org/" // 你网站的官方网址
-        }
+    {
+      "@context" : "https://schema.org",
+      "@type" : "WebSite",
+      "name" : "Heng Wang's Personal Website",
+      "alternateName": "Heng Wang",
+      "url" : "https://hengwang.org/"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Heng Wang",
+        "alternateName": "王恒",
+        "url": "https://hengwang.org/",
+        "image": "https://hengwang.org/images/profile.jpg", // Absolute URL
+        "jobTitle": "PhD Student",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Stony Brook University",
+          "department": {
+            "@type": "Organization",
+            "name": "Department of Physics and Astronomy"
+          }
+        },
+        "alumniOf": [
+           { "@type": "CollegeOrUniversity", "name": "Stony Brook University" },
+           { "@type": "CollegeOrUniversity", "name": "Anhui University" }
+        ],
+        "knowsAbout": ["Strongly correlated systems", "Topological materials", "Quantum many-body theory", "Numerical methods", "Physics"],
+        "sameAs": [
+          "https://github.com/Heng2003",
+          "https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en&authuser=1",
+          "https://orcid.org/0009-0008-1628-020X"
+        ]
+    }
     </script>
 
 </head>
-<body>
 
-    <div class="loading-screen">
+
+<body> 
+    
+
+<div class="loading-screen">
         <div class="spinner"></div>
     </div>
 
@@ -52,7 +93,7 @@
                 <button class="lang-btn active" data-lang="en">EN</button>
                 <button class="lang-btn" data-lang="zh">中文</button>
             </div>
-            <button class="hamburger">
+            <button class="hamburger" aria-label="Toggle Menu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -64,19 +105,24 @@
         <div class="slideshow-container">
             <div class="slide active" style="background-image: url('images/e539155b7a035c280fdac6b049b903eb_edited_.avif')"></div>
             <div class="slide" style="background-image: url('images/slide2.jpg')"></div>
-            <div class="slide" style="background-image: url('images/slide3.jpg')"></div>
+            <div class="slide" style="background-image: url('images/slide2.jpg')"></div> 
         </div>
+
+        <button class="slide-control prev" aria-label="Previous slide">&#10094;</button>
+        <button class="slide-control next" aria-label="Next slide">&#10095;</button>
+
+
         <div class="hero-content">
             <h1 class="en">Heng Wang (Website building in progress. The information in the page could be wrong)</h1>
             <h1 class="zh hidden">王恒 （网站建设中，所有展出信息可能不正确）</h1>
             <div class="subtitle en">PhD Student in <a href="https://www.stonybrook.edu/commcms/physics/">Department of Physics and Astronomy</a>, Stony Brook University</div>
             <div class="subtitle zh hidden">石溪大学<a href="https://www.stonybrook.edu/commcms/physics/">物理与天文系</a>博士生</div>
             <div class="social-links">
-                <a href="https://github.com/Heng2003" class="tooltip" data-tooltip="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en&authuser=1" class="tooltip" data-tooltip="Google Scholar"><i class="fab fa-google"></i></a>
-                <a href="https://orcid.org/0009-0008-1628-020X" class="tooltip" data-tooltip="ORCID"><i class="fab fa-orcid"></i></a>
+                <a href="https://github.com/Heng2003" class="tooltip" data-tooltip="GitHub" aria-label="GitHub Profile"><i class="fab fa-github"></i></a>
+                <a href="https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en&authuser=1" class="tooltip" data-tooltip="Google Scholar" aria-label="Google Scholar Profile"><i class="fab fa-google"></i></a>
+                <a href="https://orcid.org/0009-0008-1628-020X" class="tooltip" data-tooltip="ORCID" aria-label="ORCID Profile"><i class="fab fa-orcid"></i></a>
             </div>
-            <a href="#about" class="scroll-down">
+            <a href="#about" class="scroll-down" aria-label="Scroll down to About section">
                 <i class="fas fa-chevron-down"></i>
             </a>
         </div>
@@ -102,7 +148,7 @@
                         </div>
                     </div>
                     <div class="zh hidden">
-                        <p>你好！我是石溪大学物理与天文系的博士研究生，在Mengkun Liu教授的<a href="https://mengkunliu.wixsite.com/stonybrook" target="_blank" rel="noopener noreferrer">超快与近场红外实验室(UNI- Lab)</a>工作。</p>
+                        <p>你好！我是石溪大学物理与天文系的博士研究生，在Mengkun Liu教授的<a href="https://mengkunliu.wixsite.com/stonybrook" target="_blank" rel="noopener noreferrer">超快与近场红外实验室(UNI-Lab)</a>工作。</p>
                         <p>在加入石溪大学之前，我于2024年通过石溪大学与安徽大学的联合培养项目获得了物理学双学士学位。</p>
                         <div class="interests">
                             <h3>研究兴趣</h3>
@@ -116,7 +162,7 @@
                     </div>
                 </div>
                 <div class="about-image">
-                     <img src="images/profile.jpg" alt="Heng Wang" class="profile-img circle">
+                     <img src="images/profile.jpg" alt="Heng Wang" class="profile-img circle" loading="lazy">
                 </div>
             </div>
         </section>
@@ -188,7 +234,7 @@
 
         <section id="publications" class="section">
             <h2 class="section-title en">Selected Publications</h2>
-            <h2 class="section-title zh hidden">发表文章</h2> 
+            <h2 class="section-title zh hidden">发表文章</h2>
 
             <div class="publications-list">
                 <div class="pub-item" data-category="journal">
@@ -204,7 +250,8 @@
                         <a href="https://doi.org/10.1063/5.0195704"
                            class="pub-link"
                            title="View Article"
-                           target="_blank">
+                           target="_blank"
+                           aria-label="View Article on Applied Physics Letters">
                             <i class="fas fa-external-link-alt"></i>
                         </a>
                     </div>
@@ -233,7 +280,7 @@
                     <div class="info-item">
                         <i class="fas fa-building"></i>
                         <span class="en">Physics Building</span>
-                        <span class="zh hidden">Physics Building</span>
+                        <span class="zh hidden">Physics Building</span> 
                     </div>
                     <div class="info-item">
                         <i class="fas fa-map-marker-alt"></i>
@@ -244,7 +291,7 @@
                     <input type="hidden" name="_subject" value="Web Request - New Message">
                     <input type="hidden" name="_replyto">
                     <input type="hidden" name="_next" value="https://hengwang.org/thankyou.html">
-    
+
                     <div class="form-group">
                         <input type="text" name="name" placeholder="Your Name" required>
                     </div>
@@ -257,9 +304,9 @@
                     <div class="form-group">
                         <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
                     </div>
-    
+
                     <div id="form-status" style="margin-bottom: 15px; text-align: center; color: var(--primary-color);"></div>
-    
+
                     <button type="submit" class="btn en">Send Message</button>
                     <button type="submit" class="btn zh hidden">发送消息</button>
                 </form>
@@ -273,7 +320,7 @@
                 <div class="copyright en">© 2025 Heng Wang</div>
                 <div class="copyright zh hidden">© 2025 王恒</div>
                 <div class="back-to-top">
-                    <a href="#">↑</a>
+                    <a href="#" aria-label="Back to Top">↑</a>
                 </div>
             </div>
         </div>

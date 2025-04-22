@@ -1,264 +1,241 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Loading screen - Ensure .loading-screen exists in HTML
+
+    // Cache frequently used elements
+    const body = document.body;
     const loadingScreen = document.querySelector('.loading-screen');
+    const langBtns = document.querySelectorAll('.lang-btn');
+    const allLangElements = document.querySelectorAll('.en, .zh');
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const navbar = document.querySelector('.navbar');
+    const backToTopBtnLink = document.querySelector('.back-to-top a');
+    const emailForm = document.getElementById('emailForm');
+
+    // Utility: Throttle function
+    function throttle(func, limit) {
+      let inThrottle;
+      return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+          func.apply(context, args);
+          inThrottle = true;
+          setTimeout(() => inThrottle = false, limit);
+        }
+      }
+    }
+
+    // --- Loading screen ---
     if (loadingScreen) {
-        // Add a small delay after everything is loaded, then fade out
         window.addEventListener('load', () => {
             setTimeout(() => {
                 loadingScreen.classList.add('fade-out');
-                // Optional: Remove loading screen from DOM after transition
                  loadingScreen.addEventListener('transitionend', () => {
                      if (loadingScreen.parentNode) {
                          loadingScreen.parentNode.removeChild(loadingScreen);
                      }
-                 });
-            }, 500); // Shorter delay after load event
+                 }, { once: true });
+            }, 500);
         });
     }
 
-
-    // Language switching
-    const langBtns = document.querySelectorAll('.lang-btn');
-    const allLangElements = document.querySelectorAll('.en, .zh'); // Cache elements
-
+    // --- Language switching ---
     function switchLanguage(lang) {
-        // Hide all elements not in the selected language
         allLangElements.forEach(el => {
-            if (el.classList.contains(lang)) {
-                el.classList.remove('hidden');
-            } else {
-                el.classList.add('hidden');
-            }
+            el.classList.toggle('hidden', !el.classList.contains(lang));
         });
-        // Update html lang attribute
         document.documentElement.lang = lang;
+        body.dataset.lang = lang; // Use cached body
     }
 
-    langBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const lang = this.getAttribute('data-lang');
-            switchLanguage(lang);
-
-            // Update active button
-            langBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
+    if (langBtns.length > 0) {
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                switchLanguage(lang);
+                langBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
         });
-    });
+    }
 
-    // Mobile menu toggle
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
+    // --- Mobile menu toggle ---
     if (hamburger && navLinks) {
         hamburger.addEventListener('click', function() {
+            const isActive = navLinks.classList.toggle('active');
             this.classList.toggle('active');
-            navLinks.classList.toggle('active');
-             // Optional: Prevent body scroll when mobile menu is open
-             document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+            this.setAttribute('aria-expanded', isActive);
+            body.style.overflow = isActive ? 'hidden' : ''; // Use cached body
         });
 
-        // Close mobile menu when clicking a link
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 if (navLinks.classList.contains('active')) {
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
-                    document.body.style.overflow = ''; // Restore scroll
+                    hamburger.setAttribute('aria-expanded', 'false');
+                    body.style.overflow = ''; // Use cached body
                 }
             });
         });
-         // Close mobile menu when clicking outside of it
          document.addEventListener('click', (event) => {
              const isClickInsideNav = navLinks.contains(event.target);
              const isClickOnHamburger = hamburger.contains(event.target);
-
              if (!isClickInsideNav && !isClickOnHamburger && navLinks.classList.contains('active')) {
                  hamburger.classList.remove('active');
                  navLinks.classList.remove('active');
-                 document.body.style.overflow = ''; // Restore scroll
+                 hamburger.setAttribute('aria-expanded', 'false');
+                 body.style.overflow = ''; // Use cached body
              }
          });
     }
 
-    // Smooth scrolling for anchor links (handled by CSS `scroll-behavior: smooth;`)
-    // JS implementation kept for browsers that might not support CSS smooth scroll fully
-    // And to handle the offset for the fixed navbar.
-    const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 70; // Get navbar height dynamically or fallback
+    // --- Smooth scrolling for anchor links ---
+    const navbarHeight = navbar?.offsetHeight || 70; // Use cached navbar
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const targetId = this.getAttribute('href');
-            // Only override default behavior for actual internal links
-            if (targetId && targetId.startsWith('#') && targetId.length > 1) {
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    e.preventDefault(); // Prevent default jump
-                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                    const offsetPosition = elementPosition - navbarHeight - 10; // Add a little extra padding
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-
-                    // Close mobile nav if open after clicking a link
-                    if (navLinks && navLinks.classList.contains('active')) {
-                        hamburger.classList.remove('active');
-                        navLinks.classList.remove('active');
-                        document.body.style.overflow = '';
-                    }
-                }
-            } else if (targetId === '#') {
-                 // Special case for links like href="#" (often used for top link)
+            if (targetId === '#') {
                  e.preventDefault();
                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                 // Close mobile nav if open
-                 if (navLinks && navLinks.classList.contains('active')) {
+                 if (navLinks && navLinks.classList.contains('active')) { // Close mobile nav
                      hamburger.classList.remove('active');
                      navLinks.classList.remove('active');
-                     document.body.style.overflow = '';
+                     hamburger.setAttribute('aria-expanded', 'false');
+                     body.style.overflow = '';
                  }
+            } else if (targetId && targetId.startsWith('#') && targetId.length > 1) {
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - navbarHeight - 10;
+                    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                    if (navLinks && navLinks.classList.contains('active')) { // Close mobile nav
+                        hamburger.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        hamburger.setAttribute('aria-expanded', 'false');
+                        body.style.overflow = '';
+                    }
+                }
             }
         });
     });
 
-
-    // Navbar scroll effect
-    const navbar = document.querySelector('.navbar');
+    // --- Navbar scroll effect (Throttled) ---
     if (navbar) {
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+         const handleNavbarScroll = () => {
+             navbar.classList.toggle('scrolled', window.scrollY > 300);
+        };
+        window.addEventListener('scroll', throttle(handleNavbarScroll, 100));
     }
 
-    // Slideshow functionality
-    const slides = document.querySelectorAll('.slide');
-    const slideshowContainer = document.querySelector('.slideshow-container');
-    let currentSlide = 0;
-    let slideInterval;
+    // --- Slideshow functionality ---
+    const slideshowModule = (function() {
+        const slides = document.querySelectorAll('.slide');
+        const container = document.querySelector('.slideshow-container');
+        const prevBtn = document.querySelector('.slide-control.prev');
+        const nextBtn = document.querySelector('.slide-control.next');
+        let currentSlide = 0;
+        let intervalId = null;
+        const intervalTime = 5000;
 
-    if (slides.length > 1 && slideshowContainer) { // Only run if there's more than one slide
+        if (slides.length <= 1 || !container) {
+            // Hide controls if not needed or container missing
+             if(prevBtn) prevBtn.style.display = 'none';
+             if(nextBtn) nextBtn.style.display = 'none';
+            return; // Exit if slideshow isn't necessary
+        }
+
         function showSlide(n) {
             slides.forEach(slide => slide.classList.remove('active'));
             currentSlide = (n + slides.length) % slides.length;
             slides[currentSlide].classList.add('active');
         }
 
-        function nextSlide() {
-            showSlide(currentSlide + 1);
+        function next() { showSlide(currentSlide + 1); }
+        function prev() { showSlide(currentSlide - 1); }
+
+        function stop() { clearInterval(intervalId); intervalId = null; }
+        function start() {
+             stop(); // Clear previous interval
+             intervalId = setInterval(next, intervalTime);
         }
 
-        function startSlideshow() {
-             // Clear existing interval before starting a new one
-             clearInterval(slideInterval);
-             slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        // Event listeners
+        if (prevBtn) {
+             prevBtn.addEventListener('click', () => { prev(); start(); });
         }
-
-        function stopSlideshow() {
-            clearInterval(slideInterval);
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => { next(); start(); });
         }
+        container.addEventListener('mouseenter', stop);
+        container.addEventListener('mouseleave', start);
 
-        // Initial start
-        startSlideshow();
-
-        // Pause slideshow on hover
-        slideshowContainer.addEventListener('mouseenter', stopSlideshow);
-        slideshowContainer.addEventListener('mouseleave', startSlideshow);
-
-        // Touch events for mobile swipe
+        // Touch events
         let touchStartX = 0;
-        let touchEndX = 0;
-
-        slideshowContainer.addEventListener('touchstart', (e) => {
+        container.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
-            stopSlideshow(); // Pause on touch start
-        }, { passive: true }); // Use passive listener for better scroll performance
-
-        slideshowContainer.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-            startSlideshow(); // Resume on touch end
+            stop();
+        }, { passive: true });
+        container.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) { next(); }
+            else if (touchEndX > touchStartX + swipeThreshold) { prev(); }
+            start();
         }, { passive: true });
 
-        function handleSwipe() {
-            const swipeThreshold = 50; // Minimum distance for a swipe
-            if (touchEndX < touchStartX - swipeThreshold) {
-                nextSlide(); // Left swipe
-            } else if (touchEndX > touchStartX + swipeThreshold) {
-                showSlide(currentSlide - 1); // Right swipe
-            }
-            // If the swipe distance is less than threshold, do nothing
-        }
-    }
+        // Initial setup
+        showSlide(currentSlide); // Show first slide
+        start();
 
+    })(); // Immediately invoke the function to set up the slideshow
 
-    // Research tabs
+    // --- Research tabs ---
     const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content'); // Cache contents
-
+    const tabContents = document.querySelectorAll('.tab-content');
     if (tabBtns.length > 0 && tabContents.length > 0) {
         tabBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 const tabId = this.getAttribute('data-tab');
                 const targetContent = document.getElementById(tabId);
-
-                // Update active tab button
                 tabBtns.forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-
-                // Show corresponding tab content
                 tabContents.forEach(content => {
                     content.classList.remove('active');
                 });
-                if (targetContent) {
-                    targetContent.classList.add('active');
-                }
+                if (targetContent) { targetContent.classList.add('active'); }
             });
         });
     }
 
-    // --- Publication filtering section removed as it was unused ---
-
-    // Back to top button visibility (CSS handles this now, JS only needed for click)
-    const backToTopBtn = document.querySelector('.back-to-top a');
-    if (backToTopBtn) {
-        // Click event is handled by the smooth scroll logic above for href="#"
-        // CSS handles visibility based on scroll position using the .visible class (if needed)
-        // Or can be handled purely by CSS :hover/:focus states if always visible but styled
-
-        // Logic to add/remove 'visible' class based on scroll (if CSS doesn't handle it)
-         window.addEventListener('scroll', function() {
-             if (window.pageYOffset > 300) {
-                 backToTopBtn.classList.add('visible');
-             } else {
-                 backToTopBtn.classList.remove('visible');
-             }
-         });
+    // --- Back to top button visibility (Throttled) ---
+    if (backToTopBtnLink) {
+         const handleBackToTopScroll = () => {
+             backToTopBtnLink.classList.toggle('visible', window.pageYOffset > 300);
+         };
+         window.addEventListener('scroll', throttle(handleBackToTopScroll, 150));
     }
 
-
-    // Contact form submission using mailto:
-    const emailForm = document.getElementById('emailForm');
+    // --- Contact form submission feedback ---
     if (emailForm) {
         emailForm.addEventListener('submit', function(e) {
-            // DO NOT preventDefault() - let the form submit normally
-
             const formStatus = document.getElementById('form-status');
-            const submitButtonEn = this.querySelector('button.en');
-            const submitButtonZh = this.querySelector('button.zh');
-
-            // Disable buttons and show status immediately on submit attempt
+            const submitButtons = this.querySelectorAll('button[type="submit"]');
             if(formStatus) formStatus.textContent = 'Sending...';
-            if(submitButtonEn) submitButtonEn.disabled = true;
-            if(submitButtonZh) submitButtonZh.disabled = true;
-
-            // FormSubmit will handle the rest, including redirection or showing a success message/CAPTCHA.
-            // The 'Sending...' message might only show briefly before redirection.
+            submitButtons.forEach(button => button.disabled = true);
+            // FormSubmit handles the rest
         });
     }
 
-    // Initialize with default language (e.g., English)
-    switchLanguage('en'); // Ensure default language is shown on load
+    // --- Initialize default language ---
+    const initialLang = body.dataset.lang || 'en'; // Use cached body
+    switchLanguage(initialLang);
+    if (langBtns.length > 0) {
+        langBtns.forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-lang') === initialLang);
+        });
+    }
+
 });
