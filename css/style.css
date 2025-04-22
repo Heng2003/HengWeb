@@ -868,3 +868,30 @@ body {
         font-size: 1.2rem;
     }
 }
+
+/* ===================================== */
+/* Custom Styles for Inline Text Links */
+/* ===================================== */
+
+/* Target links within main content paragraphs and the subtitle */
+main p a,
+.subtitle a {
+    color: inherit; /* Inherit text color from parent paragraph/div */
+    text-decoration: underline; /* Keep underline always visible */
+    text-decoration-style: solid; /* Ensure underline is solid */
+    text-underline-offset: 2px; /* Optional: Slight space below text */
+    transition: color var(--transition); /* Use existing transition for smooth hover */
+}
+
+/* Style for when the mouse hovers over the link */
+main p a:hover,
+.subtitle a:hover {
+    color: var(--primary-color); /* Change text color to primary blue on hover */
+    text-decoration: underline; /* Ensure underline stays on hover */
+}
+
+/* Optional: Remove focus outline if desired, but consider accessibility */
+/* main p a:focus, 
+.subtitle a:focus {
+    outline: none; 
+} */
