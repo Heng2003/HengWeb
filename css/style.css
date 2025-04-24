@@ -83,7 +83,7 @@ body {
 .navbar {
     background-color: var(--darker-bg);
     color: var(--white);
-    padding: 18px 0;
+    padding: 16px 0;
     position: fixed;
     width: 100%;
     top: 0;
@@ -93,7 +93,7 @@ body {
 }
 
 .navbar.scrolled {
-    padding: 9px 0;
+    padding: 8px 0;
     background-color: rgba(22, 33, 62, 0.95); /* Slightly transparent */
 }
 
@@ -104,8 +104,8 @@ body {
 }
 
 .logo {
-    margin-left: -40px;
-    font-size: 1.8rem;
+    margin-left: 0px;
+    font-size: 1.5rem;
     font-weight: bold;
     color: var(--white);
     text-decoration: none;
@@ -123,7 +123,7 @@ body {
     transition: color var(--transition); /* Only transition color */
     position: relative;
     padding-bottom: 5px; /* Space for underline */
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 
 .nav-links a::after {
