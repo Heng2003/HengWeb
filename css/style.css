@@ -508,7 +508,7 @@ body {
 .pub-content { flex: 1 1 500px; /* Allow grow/shrink, base 500px */ min-width: 300px; }
 .pub-title { font-weight: bold; margin-bottom: 8px; color: var(--white); line-height: 1.4; }
 .pub-authors { font-style: italic; margin-bottom: 8px; color: var(--text-light); font-size: 0.95rem; line-height: 1.5; }
-.pub-authors strong { font-weight: bold; font-style: normal; color: var(--white); }
+.pub-authors strong { font-weight: bold; font-style: italic; color: var(--white); }
 .pub-journal { color: var(--primary-color); font-size: 0.9rem; margin-bottom: 8px; }
 .pub-doi a { color: var(--primary-color); text-decoration: none; transition: color var(--transition); word-break: break-all; font-size: 0.9rem; }
 .pub-doi a:hover { text-decoration: underline; color: var(--accent-color); } /* Changed hover color */
