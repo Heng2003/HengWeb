@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
+    
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Personal website of Heng Wang, a PhD student in Physics and Astronomy at Stony Brook University. Research interests include condense matter physics, quantum materials, near-field optical microscopy.">
-    <meta name="keywords" content="Heng Wang, 王恒, Physics, Stony Brook University, PhD Student, Near-field, Condense Matter Physics, UNI-Lab, Mengkun Liu">
-    <title>Heng Wang | Personal Website</title>
 
-    <!-- 网站图标 favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="./images/WebIcon.png?v=2"/>
-    <!-- 向后兼容：当浏览器寻找 shortcut icon 时 -->
-    <link rel="shortcut icon" href="images/WebIcon.png?v=2" type="image/png"/>
-    <!-- 可选：苹果设备首页图标 -->
-    <link rel="apple-touch-icon" sizes="180x180" href="images/WebIcon.png?v=2"/>
+    <title>Heng Wang's Personal Website</title>
+
+    <meta name="description" content="Personal website of Heng Wang, a PhD student in Physics and Astronomy at Stony Brook University. Research interests include strongly correlated systems, topological materials, and quantum many-body theory.">
+    <meta name="keywords" content="Heng Wang, 王恒, Physics, Stony Brook University, PhD Student, Strongly Correlated Systems, Topological Materials, Quantum Many-Body Theory, UNI-Lab, Mengkun Liu">
+    
+    <link rel="canonical" href="https://hengwang.org/" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"> 
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"> 
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png"> 
+    <link rel="icon" type="image/png" sizes="192x192" href="images/android-chrome-192x192.png"> 
 
     <meta property="og:title" content="Heng Wang's Personal Website" />
     <meta property="og:description" content="Personal website of Heng Wang, a PhD student in Physics and Astronomy at Stony Brook University." />
@@ -20,289 +24,332 @@
     <meta property="og:type" content="website" />
 
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <link rel="canonical" href="https://hengwang.org/">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@YourTwitterHandle">
-    <meta name="theme-color" content="#0D0D0D" />
+    <script type="application/ld+json">
+    {
+      "@context" : "https://schema.org",
+      "@type" : "WebSite",
+      "name" : "Heng Wang's Personal Website",
+      "alternateName": "Heng Wang",
+      "url" : "https://hengwang.org/"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Heng Wang",
+        "alternateName": "王恒",
+        "url": "https://hengwang.org/",
+        "image": "https://hengwang.org/images/profile.jpg", // Absolute URL
+        "jobTitle": "PhD Student",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Stony Brook University",
+          "department": {
+            "@type": "Organization",
+            "name": "Department of Physics and Astronomy"
+          }
+        },
+        "alumniOf": [
+           { "@type": "CollegeOrUniversity", "name": "Stony Brook University" },
+           { "@type": "CollegeOrUniversity", "name": "Anhui University" }
+        ],
+        "knowsAbout": ["Strongly correlated systems", "Topological materials", "Quantum many-body theory", "Numerical methods", "Physics"],
+        "sameAs": [
+          "https://github.com/Heng2003",
+          "https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en&authuser=1",
+          "https://orcid.org/0009-0008-1628-020X"
+        ]
+    }
+    </script>
 
 </head>
-<body>
-    <header class="site-header">
-        <div class="container header-container">
-            <a href="#hero" class="logo">HW</a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#research" class="nav-link">Research</a></li>
-                    <li><a href="#publications" class="nav-link">Publications</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
-            <button class="menu-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
-                <span class="menu-icon-bar"></span>
-                <span class="menu-icon-bar"></span>
-                <span class="menu-icon-bar"></span>
+
+
+<body> 
+    
+
+<div class="loading-screen">
+        <div class="spinner"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo en">Heng Wang</a>
+            <a href="#" class="logo zh hidden">王恒</a>
+            <div class="nav-links">
+                <a href="#about" class="en">About</a>
+                <a href="#about" class="zh hidden">关于</a>
+                <a href="#research" class="en">Research</a>
+                <a href="#research" class="zh hidden">研究</a>
+                <a href="#publications" class="en">Publications</a>
+                <a href="#publications" class="zh hidden">发表文章</a>
+                <a href="#contact" class="en">Contact</a>
+                <a href="#contact" class="zh hidden">联系方式</a>
+            </div>
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="zh">中文</button>
+            </div>
+            <button class="hamburger" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="slideshow-container">
+            <div class="slide active" style="background-image: url('images/e539155b7a035c280fdac6b049b903eb_edited_.avif')"></div>
+            <div class="slide" style="background-image: url('images/slide2.jpg')"></div>
+            <div class="slide" style="background-image: url('images/slide3.avif')"></div>
+            
+        </div>
+
+        <button class="slide-control prev" aria-label="Previous slide">&#10094;</button>
+        <button class="slide-control next" aria-label="Next slide">&#10095;</button>
+
+
+        <div class="hero-content">
+            <h1 class="en">Heng Wang <br> (Website building in progress. The information in the page could be wrong)</h1>
+            <h1 class="zh hidden">王恒 <br>（网站建设中，所有展出信息可能不正确）</h1>
+            <div class="subtitle en">PhD Student in <a href="https://www.stonybrook.edu/commcms/physics/" target="_blank" rel="noopener noreferrer">Department of Physics and Astronomy</a>, Stony Brook University</div>
+            <div class="subtitle zh hidden">石溪大学<a href="https://www.stonybrook.edu/commcms/physics/" target="_blank" rel="noopener noreferrer">物理与天文系</a>博士生</div>
+            <div class="social-links">
+                <a href="https://github.com/Heng2003" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="GitHub" aria-label="GitHub Profile"><i class="fab fa-github"></i></a>
+                <a href="https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en&authuser=1" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="Google Scholar" aria-label="Google Scholar Profile"><i class="fab fa-google"></i></a>
+                <a href="https://orcid.org/0009-0008-1628-020X" target="_blank" rel="noopener noreferrer" class="tooltip" data-tooltip="ORCID" aria-label="ORCID Profile"><i class="fab fa-orcid"></i></a>
+            </div>
+            <a href="#about" class="scroll-down" aria-label="Scroll down to About section">
+                <i class="fas fa-chevron-down"></i>
+            </a>
         </div>
     </header>
 
-    <main>
-        
-
-        <section id="hero" class="hero-section section full-height-section">
-            <div class="hero-carousel">
-                <div class="carousel-slide active" style="background-image: url('images/slide1.avif');"></div>
-                <div class="carousel-slide" style="background-image: url('images/slide2.jpg');"></div>
-                <div class="carousel-slide" style="background-image: url('images/slide3.avif');"></div>
-            </div>
-            <div class="hero-overlay"></div>
-            <div class="container hero-content-container">
-                <div class="hero-text-content">
-                    <h1 class="hero-title">Heng Wang<br>Website building in progress. The information could be wrong!</h1>
-                    <p class="hero-motto">"Physics, like music, weaves grand symphonies from a few fundamental notes."</p>
+    <main class="container">
+        <section id="about" class="section">
+            <h2 class="section-title en">About Me</h2>
+            <h2 class="section-title zh hidden">个人简介</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="en">
+                        <p>Hi! I am a PhD student in the Department of Physics and Astronomy at Stony Brook University, working with Prof. Mengkun Liu in the <a href="https://mengkunliu.wixsite.com/stonybrook" target="_blank" rel="noopener noreferrer">Ultrafast & Near-field Infrared Laboratory (UNI-Lab)</a>.</p>
+                        <p>But more importantly, I'm a grandmaster Starcraft II player (top 50  on the America server). Also, I am aiming to become a pro fingerstyle player!</p>
+                        <div class="interests">
+                            <h3>Research Interests</h3>
+                            <div class="tags">
+                                <span class="tag">Strongly correlated systems</span>
+                                <span class="tag">Topological materials</span>
+                                <span class="tag">Quantum many-body theory</span>
+                                <span class="tag">Numerical methods</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="zh hidden">
+                        <p>你好！我是石溪大学物理与天文系的博士研究生，在Mengkun Liu教授的<a href="https://mengkunliu.wixsite.com/stonybrook" target="_blank" rel="noopener noreferrer">超快与近场红外实验室(UNI-Lab)</a>工作。</p>
+                        <p>但是更为重要的是，我是一名美服前50的宗师星际2玩家。另外，我正在努力成为一名职业指弹选手！</p>
+                        <div class="interests">
+                            <h3>研究兴趣</h3>
+                            <div class="tags">
+                                <span class="tag">强关联系统</span>
+                                <span class="tag">拓扑材料</span>
+                                <span class="tag">量子多体理论</span>
+                                <span class="tag">数值方法</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                     <img src="images/profile.jpg" alt="Heng Wang" class="profile-img circle" loading="lazy">
                 </div>
             </div>
-            <div class="hero-carousel-nav-sides">
-                <button class="carousel-nav-btn side-prev" aria-label="Previous Slide">&#10094;</button>
-                <button class="carousel-nav-btn side-next" aria-label="Next Slide">&#10095;</button>
-            </div>
-             <a href="#about" class="scroll-down-indicator" aria-label="Scroll to About section">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path></svg>
-            </a>
         </section>
 
-        <section id="about" class="about-section section">
-            <div class="container">
-                <h2 class="section-title animate-on-scroll">About Me</h2>
-                <div class="about-layout"> <div class="about-image-wrapper animate-slide-from-left">
-                        <img src="/images/profile.jpg" alt="Heng Wang - Profile Picture">
+        <section id="research" class="section">
+            <h2 class="section-title en">Research</h2>
+            <h2 class="section-title zh hidden">研究方向</h2>
+            <div class="research-tabs">
+                <button class="tab-btn active" data-tab="current">Current Projects</button>
+                <button class="tab-btn" data-tab="past">Past Projects</button>
+            </div>
+            <div class="tab-content active" id="current">
+                <div class="research-item">
+                    <h3 class="en">Non-equilibrium dynamics in quantum materials</h3>
+                    <h3 class="zh hidden">量子材料中的非平衡动力学</h3>
+                    <div class="en">
+                        <p>Developing new numerical methods to study the time evolution of strongly correlated systems under external perturbations.</p>
+                        <p>This project involves:</p>
+                        <ul class="research-list">
+                            <li>Developing tensor network algorithms</li>
+                            <li>Implementing parallel computing techniques</li>
+                            <li>Analyzing experimental data</li>
+                        </ul>
                     </div>
-                    <div class="about-text-content animate-slide-from-right">
-                        <p>Hi! I am a PhD student in the Department of Physics and Astronomy at Stony Brook University, working with Prof. Mengkun Liu in the <a href="https://mengkunliu.wixsite.com/stonybrook" target="_blank" rel="noopener noreferrer">Ultrafast & Near-field Infrared Laboratory (UNI-Lab)</a></p>
-                        <p>I believe that the most profound discoveries often lie at the intersection of disciplines, so more importantly, I'm a grandmaster Starcraft II player (top 50  on the America server). Also, I am aiming to become a pro fingerstyle player!</p>
-                        
-                        <!-- About Me 段落里的社交图标部分 -->
-                        <div class="social-links-about">
-                        <!-- GitHub：内联 SVG（摘自官方 Mark）-->
-                        <a
-                            href="https://github.com/Heng2003"
-                            target="_blank" rel="noopener noreferrer"
-                            class="social-icon"
-                            aria-label="GitHub Profile"
-                            title="GitHub"
-                        >
-                            <svg
-                            role="img"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="icon-svg"
-                            >
-                            <path
-                                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303
-                                3.438 9.8 8.205 11.385.6.113.82-.258.82-.577
-                                0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61
-                                -4.042-1.61-.546-1.385-1.333-1.754-1.333-1.754
-                                -1.09-.744.084-.729.084-.729 1.205.084 1.84
-                                1.236 1.84 1.236 1.07 1.835 2.807 1.305
-                                3.492.998.108-.776.42-1.305.763-1.605-2.665
-                                -.3-5.467-1.332-5.467-5.93 0-1.31.468-2.38
-                                1.235-3.22-.135-.303-.54-1.523.105-3.176
-                                0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399
-                                3-.405 1.02.006 2.04.138 3 .405 2.28-1.552
-                                3.285-1.23 3.285-1.23.645 1.653.24 2.873.12
-                                3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805
-                                5.625-5.475 5.92.435.375.81 1.096.81 2.22
-                                0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825
-                                .57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-                            />
-                            </svg>
+                    <div class="zh hidden">
+                        <p>开发新的数值方法来研究强关联系统在外界扰动下的时间演化。</p>
+                        <p>本项目包括：</p>
+                        <ul class="research-list">
+                            <li>开发张量网络算法</li>
+                            <li>实现并行计算技术</li>
+                            <li>分析实验数据</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="research-item">
+                    <h3 class="en">Machine learning for electronic structure</h3>
+                    <h3 class="zh hidden">电子结构的机器学习</h3>
+                    <div class="en">
+                        <p>Applying neural networks to predict material properties and accelerate first-principles calculations.</p>
+                    </div>
+                    <div class="zh hidden">
+                        <p>应用神经网络预测材料性质并加速第一性原理计算。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="past">
+                <div class="research-item">
+                    <h3 class="en">Topological superconductivity</h3>
+                    <h3 class="zh hidden">拓扑超导性</h3>
+                    <div class="en">
+                        <p>Investigated the emergence of Majorana fermions in hybrid semiconductor-superconductor nanostructures.</p>
+                    </div>
+                    <div class="zh hidden">
+                        <p>研究了混合半导体-超导体纳米结构中马约拉纳费米子的出现。</p>
+                    </div>
+                </div>
+                <div class="research-item">
+                    <h3 class="en">Quantum transport</h3>
+                    <h3 class="zh hidden">量子输运</h3>
+                    <div class="en">
+                        <p>Studied the effects of disorder on conductance in Weyl semimetals.</p>
+                    </div>
+                    <div class="zh hidden">
+                        <p>研究了无序对Weyl半金属中电导的影响。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="publications" class="section">
+            <h2 class="section-title en">Selected Publications</h2>
+            <h2 class="section-title zh hidden">发表文章</h2>
+
+            <div class="publications-list">
+                
+                <div class="pub-item" data-category="journal">
+                    <div class="pub-content">
+                        <div class="pub-title">Photocurrent Nanoscopy of Quantum Hall Bulk</div>
+                        <div class="pub-authors">Ran Jing, Boyi Zhou, Jiacheng Sun, Shoujing Chen, Wenjun Zheng, Zijian Zhou, <strong>Heng Wang</strong>, Lukas Wehmeier, Bing Cheng, Michael Dapolito, Yinan Dong, Zengyi Du, G. L. Carr, Xu Du, D. N. Basov, Qiang Li, and Mengkun Liu</div>
+                        <div class="pub-journal">Physical Review X 15, 021026 (April 2025)</div>
+                        <div class="pub-doi">
+                            <a href="https://doi.org/10.1103/PhysRevX.15.021026" target="_blank" rel="noopener noreferrer">https://doi.org/10.1103/PhysRevX.15.021026</a>
+                        </div>
+                    </div>
+                    <div class="pub-links">
+                        <a href="https://doi.org/10.1103/PhysRevX.15.021026"
+                           class="pub-link"
+                           title="View Article"
+                           target="_blank" rel="noopener noreferrer"
+                           aria-label="View Article on Physical Review X">
+                            <i class="fas fa-external-link-alt"></i>
                         </a>
-
-                        <!-- Google Scholar：直接用 SVG 图片托管 -->
-                        <a
-                            href="https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en"
-                            target="_blank" rel="noopener noreferrer"
-                            class="social-icon"
-                            aria-label="Google Scholar Profile"
-                            title="Google Scholar"
-                        >
-                            <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Google_Scholar_logo.svg"
-                            alt="Google Scholar Logo"
-                            class="icon-img"
-                            />
+                    </div>
+                </div>
+                
+                <div class="pub-item" data-category="journal">
+                    <div class="pub-content">
+                        <div class="pub-title">Tunable anomalous Hall effect and Curie temperature in perpendicular magnetic anisotropic lanthanum doped NiCo<sub>2</sub>O<sub>4</sub> film</div>
+                        <div class="pub-authors">Yi Zhang, Xuegang Chen, Xianghao Ji, <strong>Heng Wang</strong>, Biao Zheng, Mingzhu Xue, Jinbo Yang, Mingliang Tian</div>
+                        <div class="pub-journal">Applied Physics Letters 124, 091905 (26 February 2024)</div>
+                        <div class="pub-doi">
+                            <a href="https://doi.org/10.1063/5.0195704" target="_blank" rel="noopener noreferrer">https://doi.org/10.1063/5.0195704</a>
+                        </div>
+                    </div>
+                    <div class="pub-links">
+                        <a href="https://doi.org/10.1063/5.0195704"
+                           class="pub-link"
+                           title="View Article"
+                           target="_blank" rel="noopener noreferrer"
+                           aria-label="View Article on Applied Physics Letters">
+                            <i class="fas fa-external-link-alt"></i>
                         </a>
-                        </div>
-
-                    
                     </div>
                 </div>
+
+                
+            </div>
+
+            <div class="full-publications-link">
+                <a href="https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en&authuser=1" target="_blank" rel="noopener noreferrer" class="en">
+                    <i class="fas fa-external-link-alt"></i> Google Scholar
+                </a>
+                <a href="https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en&authuser=1" target="_blank" rel="noopener noreferrer" class="zh hidden">
+                    <i class="fas fa-external-link-alt"></i> 谷歌学术主页
+                </a>
             </div>
         </section>
 
-        <section id="research" class="research-section section alt-bg">
-            <div class="container full-width-container">
-                <h2 class="section-title animate-on-scroll">Research Projects</h2>
-                <div class="horizontal-scroll-wrapper"> 
-                    <button class="hs-arrow prev" aria-label="Scroll projects left">&#10094;</button>
-                    <div class="research-items-container">
-                        <div class="research-item">
-                            <div class="research-item-bg"></div>
-                            <div class="research-item-content"><h3></h3><p></p></div>
-                        </div>
-                        <div class="research-item">
-                            <div class="research-item-bg"></div>
-                            <div class="research-item-content"><h3></h3><p></p></div>
-                        </div>
-                        <div class="research-item">
-                            <div class="research-item-bg"></div>
-                            <div class="research-item-content"><h3></h3><p></p></div>
-                        </div>
-                        <div class="research-item">
-                            <div class="research-item-bg"></div>
-                            <div class="research-item-content"><h3></h3><p></p></div>
-                        </div>
-                        <div class="research-item">
-                            <div class="research-item-bg"></div>
-                            <div class="research-item-content"><h3></h3><p></p></div>
-                        </div>
+        <section id="contact" class="section">
+            <h2 class="section-title en">Contact</h2>
+            <h2 class="section-title zh hidden">联系方式</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:heng.wang@stonybrook.edu">heng.wang@stonybrook.edu</a>
                     </div>
-                    <button class="hs-arrow next" aria-label="Scroll projects right">&#10095;</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="publications" class="publications-section section">
-            <div class="container">
-                <h2 class="section-title animate-on-scroll">Selected Publications</h2>
-                <div class="publications-list">
-                    <div class="publication-entry animate-on-scroll"
-                         data-title="Photocurrent Nanoscopy of Quantum Hall Bulk"
-                         data-img-src="images/PaperFigures/Quantum%20Hall%20Bulk.png"
-                         data-abstract="Understanding nanoscale electronic and thermal transport of two-dimensional (2D) electron systems in the quantum Hall regime, particularly in the bulk insulating state, poses considerable challenges. One of the primary difficulties arises from the presence of chiral edge channels, whose transport behavior obscures the investigation of the insulating bulk. Using near-field optical and photocurrent nanoscopy, we probe real-space variations of the optical and thermal dynamics of graphene in the quantum Hall regime without relying on complex sample or electrode geometries. Near the charge-neutrality point, we detect strong optical and photothermal signals from resonant inter-Landau-level (LL) magnetoexciton excitations between the zeroth and &plusmn;1 st LLs, which gradually weaken with increasing doping due to Pauli blocking. Interestingly, at higher doping levels and full-integer LL fillings, photothermal signals reappear across the entire sample over an approximately 10-&mu;m scale, indicating unexpectedly long cooling lengths and nonlocal photothermal heating through the insulating bulk. This observation suggests that thermal conductivity persists for the localized states even as electronic transport is suppressed—a clear violation of the Wiedemann-Franz law. Our experiments provide novel insights into nanoscale thermal and electronic transport in incompressible 2D gases, highlighting the roles of magnetoexcitons and chiral edge states in the thermo-optoelectric dynamics of the Dirac quantum Hall state."
-                         data-doi-link="https://doi.org/10.1103/PhysRevX.15.021026">
-                        <h4>Photocurrent Nanoscopy of Quantum Hall Bulk</h4>
-                        <p class="pub-meta">Ran Jing, Boyi Zhou, Jiacheng Sun, Shoujing Chen, Wenjun Zheng, Zijian Zhou, <strong style="color: blanchedalmond;">Heng Wang</strong>, Lukas Wehmeier, Bing Cheng, Michael Dapolito, Yinan Dong, Zengyi Du, G. L. Carr, Xu Du, D. N. Basov, Qiang Li, and Mengkun Liu. <br><em><i>Physical Review X 15, 021026</em> (2025).</i></p>
-                        <span class="view-details-btn">View Abstract & Details</span>
+                    <div class="info-item">
+                        <i class="fas fa-building"></i>
+                        <span class="en">Physics Building</span>
+                        <span class="zh hidden">Physics Building</span> 
                     </div>
-
-                    <div class="publication-entry animate-on-scroll"
-                         data-title="Tunable anomalous Hall effect and Curie temperature in perpendicular magnetic anisotropic lanthanum doped NiCo<sub>2</sub>O<sub>4</sub> film"
-                         data-img-src="images/PaperFigures/L-NCO.png"
-                         data-abstract="Perpendicular magnetic anisotropic NiCo<sub>2</sub>O<sub>4</sub> (NCO) films show volatile physical properties due to the complicated ion occupation/valence disproportion, making it feasible to be manipulated. In this work, the tunable anomalous Hall effect is observed in high-quality lanthanum (La) doped NCO films grown by the off-axis RF sputtering technique. It reveals that the longitudinal resistance (<i>R<sub>xx</sub></i>) significantly increases as the growth of La doping level, while the Curie temperature (<i>T</i><sub>C</sub>) decreases with the rising of La doping level. A universal scaling law between the longitudinal conductance (<i>&sigma;<sub>xx</sub></i>) and the anomalous Hall conductance (<i>&sigma;<sub>xy</sub></i>), including the terms of dirty scaling mechanism, intrinsic contribution, and side jump, is proposed to explain the observed anomalous Hall effect. Additionally, an intrinsic linear relation between <i>&sigma;<sub>xx</sub></i> and <i>T</i><sub>C</sub> is revealed. The evolution of anomalous Hall resistance (<i>R</i><sub>A</sub>), <i>T</i><sub>C</sub>, and <i>R<sub>xx</sub></i> is closely related to the complex valence state/occupation of Ni ions induced by La doping. This work provides a strategy to manipulate the physical properties of NCO film, making it a potential material for spintronic applications."
-                         data-doi-link="https://doi.org/10.1103/PhysRevX.15.021026">
-                        <h4>Tunable anomalous Hall effect and Curie temperature in perpendicular magnetic anisotropic lanthanum doped NiCo<sub>2</sub>O<sub>4</sub> film</h4>
-                        <p class="pub-meta">Yi Zhang, Xuegang Chen, Xianghao Ji, <strong style="color: blanchedalmond;">Heng Wang</strong>, Biao Zheng, Mingzhu Xue, Jinbo Yang, Mingliang Tian. <br><em><i>Applied Physics Letters 124, 091905</em> (2024).</i></p>
-                        <span class="view-details-btn">View Abstract & Details</span>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Stony Brook University, Stony Brook, NY 11794</span>
                     </div>
                 </div>
-                <div class="google-scholar-link-container animate-on-scroll">
-                    <a href="https://scholar.google.com/citations?user=VRPxCeUAAAAJ&hl=en&authuser=1" class="cta-button secondary-cta" target="_blank" rel="noopener noreferrer">Full Publication List on Google Scholar</a>
-                </div>
+                <form class="contact-form" id="emailForm" action="https://formsubmit.co/heng.wang@stonybrook.edu" method="POST">
+                    <input type="hidden" name="_subject" value="Web Request - New Message">
+                    <input type="hidden" name="_replyto">
+                    <input type="hidden" name="_next" value="https://hengwang.org/thankyou.html">
+
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="User Subject" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+
+                    <div id="form-status" style="margin-bottom: 15px; text-align: center; color: var(--primary-color);"></div>
+
+                    <button type="submit" class="btn en">Send Message</button>
+                    <button type="submit" class="btn zh hidden">发送消息</button>
+                </form>
             </div>
         </section>
-
-        <section id="contact" class="contact-section section alt-bg">
-        <div class="container">
-            <h2 class="section-title animate-on-scroll">Contact Me</h2>
-
-            <form
-            id="contact-form"
-            class="contact-form animate-on-scroll"
-            action="https://formspree.io/f/xvgabgnl"
-            method="POST"
-            >
-            <!-- 关闭验证码 -->
-            <input type="hidden" name="_captcha" value="false">
-            <!-- 自定义邮件主题 -->
-            <input type="hidden" name="_subject" value="New message from your website">
-            <!-- Honeypot，防垃圾 -->
-            <input 
-                type="text" 
-                name="_gotcha" 
-                tabindex="-1" 
-                autocomplete="off" 
-                style="display:none !important;"
-            >
-
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Your Name"
-                required
-                />
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input
-                type="email"
-                id="email"
-                name="_replyto"
-                placeholder="you@example.com"
-                required
-                />
-            </div>
-
-            <div class="form-group">
-                <label for="subject">Subject</label>
-                <input
-                type="text"
-                id="subject"
-                name="subject"
-                placeholder="Subject"
-                required
-                />
-            </div>
-
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea
-                id="message"
-                name="message"
-                rows="5"
-                placeholder="Your message here…"
-                required
-                ></textarea>
-            </div>
-
-            <button type="submit" class="cta-button primary-cta">
-                Send Message
-            </button>
-            </form>
-        </div>
-        </section>
-
-
-        
-
     </main>
 
-    <footer class="site-footer">
+    <footer class="footer">
         <div class="container">
-            <p>&copy; <span id="current-year">2025</span> Heng Wang. All Rights Reserved.</p>
-            <p class="footer-inspiration">Inspired by the pursuit of knowledge and elegant design. "Less is more, and more is different"</p>
+            <div class="footer-content">
+                <div class="copyright en">© 2025 Heng Wang</div>
+                <div class="copyright zh hidden">© 2025 王恒</div>
+                <div class="back-to-top">
+                    <a href="#" aria-label="Back to Top">↑</a>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <div id="generic-modal" class="modal-container">
-        <div class="modal-dialog">
-            <button class="modal-close-btn" aria-label="Close modal">&times;</button>
-            <div class="modal-header"><h3 id="modal-title-content"></h3></div>
-            <div class="modal-body-content">
-                <img id="modal-image-content" src="" alt="Modal Image" style="display:none;">
-                <p id="modal-details-content"></p>
-                <p id="modal-authors-content" style="display:none;"></p>
-                <p id="modal-journal-content" style="display:none;"></p>
-            </div>
-            <div class="modal-footer"><a id="modal-link-content" href="#" class="cta-button secondary-cta" target="_blank" rel="noopener noreferrer" style="display:none;">View Source / Read More</a></div>
-        </div>
-    </div>
-    <script src="js/script.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
