@@ -2,13 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://hengwang.org/</loc> 
-    <lastmod>2025-04-23</lastmod> <changefreq>monthly</changefreq>
+    <lastmod>2025-05-11</lastmod> <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-  <url>
-     <loc>https://hengwang.org/thankyou.html</loc> 
-     <lastmod>2025-04-22</lastmod> 
-     <changefreq>yearly</changefreq>
-     <priority>0.5</priority>
-   </url>
 </urlset>
