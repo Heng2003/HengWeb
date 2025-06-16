@@ -37,6 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 let elementPosition = targetElement.getBoundingClientRect().top;
                 const scrollToPosition = isHero ? window.pageYOffset + elementPosition : window.pageYOffset + elementPosition - headerOffset;
                 window.scrollTo({ top: scrollToPosition, behavior: 'smooth' });
+                
+                // Remove focus from the clicked link to prevent persistent highlighting
+                link.blur();
+                
                 if (mainNav.classList.contains('active')) {
                     mainNav.classList.remove('active');
                     menuToggle.classList.remove('active');
@@ -579,19 +583,54 @@ document.addEventListener('DOMContentLoaded', () => {
         return select ? select.currentValue : null;
     }
     
+    // Smart number formatting function
+    function formatNumber(value) {
+        if (isNaN(value) || value === null || value === undefined) return '';
+        
+        const absValue = Math.abs(value);
+        
+        // For very small numbers (< 0.00001) or very large numbers (>= 100000), use scientific notation
+        if (absValue < 1e-5 || absValue >= 1e5) {
+            return value.toExponential(4);
+        }
+        
+        // For numbers that can be displayed normally
+        if (absValue >= 1) {
+            // For integers or numbers with few decimal places
+            if (value === Math.floor(value)) {
+                return value.toString(); // Integer
+            } else {
+                // Limit to 5 significant digits after decimal point
+                const decimalPlaces = Math.max(0, 5 - Math.floor(Math.log10(absValue)) - 1);
+                return value.toFixed(Math.min(decimalPlaces, 5));
+            }
+        } else {
+            // For numbers between 0 and 1
+            const decimalPlaces = Math.max(0, 5 - Math.floor(Math.log10(absValue)) - 1);
+            return value.toFixed(Math.min(decimalPlaces, 5));
+        }
+    }
+    
     // Helper function to trigger conversions
     function triggerConversion(target) {
         switch(target) {
             case 'energy-unit':
-            case 'temperature-unit':
-            case 'wavelength-unit':
-            case 'frequency-unit':
-            case 'wavenumber-unit':
                 if (energyInput && energyInput.value) updateFromEnergy();
-                else if (temperatureInput && temperatureInput.value) updateFromTemperature();
-                else if (wavelengthInput && wavelengthInput.value) updateFromWavelength();
-                else if (frequencyInput && frequencyInput.value) updateFromFrequency();
-                else if (wavenumberInput && wavenumberInput.value) updateFromWavenumber();
+                break;
+            case 'temperature-unit':
+                if (temperatureInput && temperatureInput.value) updateFromTemperature();
+                break;
+            case 'wavelength-unit':
+                if (wavelengthInput && wavelengthInput.value) updateFromWavelength();
+                break;
+            case 'frequency-unit':
+                if (frequencyInput && frequencyInput.value) updateFromFrequency();
+                break;
+            case 'wavenumber-unit':
+                if (wavenumberInput && wavenumberInput.value) updateFromWavenumber();
+                break;
+            case 'time-unit':
+                if (timeInput && timeInput.value) updateFromTime();
                 break;
             case 'beam-wavelength-unit':
             case 'beam-waist-unit':
@@ -600,6 +639,27 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'distance-unit':
             case 'beam-radius-unit':
                 if (typeof calculateGaussianBeam === 'function') calculateGaussianBeam();
+                break;
+            case 'carrier-density-unit':
+                if (carrierDensityInput && carrierDensityInput.value) updateFromCarrierDensity();
+                break;
+            case 'fermi-energy-unit':
+                if (fermiEnergyInput && fermiEnergyInput.value) updateFromFermiEnergy();
+                break;
+            case 'fermi-wavenumber-unit':
+                if (fermiWavenumberInput && fermiWavenumberInput.value) updateFromFermiWavenumber();
+                break;
+            case 'gate-voltage-sio2-unit':
+                if (gateVoltageSiO2Input && gateVoltageSiO2Input.value) updateFromGateVoltageSiO2();
+                break;
+            case 'gate-voltage-hbn-unit':
+                if (gateVoltageHBNInput && gateVoltageHBNInput.value) updateFromGateVoltageHBN();
+                break;
+            case 'sio2-thickness-unit':
+                if (gateVoltageSiO2Input && gateVoltageSiO2Input.value) updateFromGateVoltageSiO2();
+                break;
+            case 'hbn-thickness-unit':
+                if (gateVoltageHBNInput && gateVoltageHBNInput.value) updateFromGateVoltageHBN();
                 break;
         }
     }
@@ -634,18 +694,90 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize custom selects
     initializeCustomSelects();
 
-    // Ultimate Converter: Energy ⇄ Temperature ⇄ Wavelength ⇄ Frequency ⇄ Wavenumber
+    // Ultimate Converter: Energy ⇄ Temperature ⇄ Wavelength ⇄ Frequency ⇄ Wavenumber ⇄ Time
     const energyInput = document.getElementById('energy-input');
     const temperatureInput = document.getElementById('temperature-input');
     const wavelengthInput = document.getElementById('wavelength-input');
     const frequencyInput = document.getElementById('frequency-input');
     const wavenumberInput = document.getElementById('wavenumber-input');
+    const timeInput = document.getElementById('time-input');
+    const spectralBandDisplay = document.getElementById('spectral-band-display');
+    const bandNameElement = document.getElementById('band-name');
+    const bandDescriptionElement = document.getElementById('band-description');
 
-    if (energyInput && temperatureInput && wavelengthInput && frequencyInput && wavenumberInput) {
+    if (energyInput && temperatureInput && wavelengthInput && frequencyInput && wavenumberInput && timeInput) {
         // Physical constants
         const kB = 8.617333262145e-5; // Boltzmann constant in eV/K
         const h = 4.135667696e-15; // Planck constant in eV·s
         const c = 2.998e8; // Speed of light in m/s
+
+        // Spectral band definitions (wavelength in meters)
+        // Based on the detailed electromagnetic spectrum table provided
+        const spectralBands = [
+            // Ultraviolet (UV)
+            { name: "Extreme UV", min: 1e-9, max: 100e-9, description: "EUV: 1240–12.4 eV, 1–100 nm" },
+            { name: "Vacuum UV", min: 100e-9, max: 190e-9, description: "VUV, UV-C: 12.4–6.53 eV, 100–190 nm" },
+            { name: "Deep UV", min: 190e-9, max: 280e-9, description: "DUV, UV-C: 6.53–4.43 eV, 190–280 nm" },
+            { name: "Mid UV", min: 280e-9, max: 315e-9, description: "UV-B: 4.43–3.94 eV, 280–315 nm" },
+            { name: "Near UV", min: 315e-9, max: 380e-9, description: "UV-A: 3.94–3.26 eV, 315–380 nm" },
+            
+            // Visible (Vis)
+            { name: "Violet", min: 380e-9, max: 435e-9, description: "3.26–2.85 eV, 380–435 nm" },
+            { name: "Blue", min: 435e-9, max: 500e-9, description: "2.85–2.48 eV, 435–500 nm" },
+            { name: "Cyan", min: 500e-9, max: 520e-9, description: "2.48–2.38 eV, 500–520 nm" },
+            { name: "Green", min: 520e-9, max: 565e-9, description: "2.38–2.19 eV, 520–565 nm" },
+            { name: "Yellow", min: 565e-9, max: 590e-9, description: "2.19–2.10 eV, 565–590 nm" },
+            { name: "Orange", min: 590e-9, max: 625e-9, description: "2.10–1.98 eV, 590–625 nm" },
+            { name: "Red", min: 625e-9, max: 780e-9, description: "1.98–1.59 eV, 625–780 nm" },
+            
+            // Infrared (IR)
+            { name: "Near IR", min: 780e-9, max: 1400e-9, description: "NIR, IR-A: 1.58–0.886 eV, 780–1400 nm" },
+            { name: "Near IR-B", min: 1.4e-6, max: 3e-6, description: "NIR, IR-B: 0.886–0.413 eV, 1.4–3 μm" },
+            { name: "Mid IR", min: 3e-6, max: 50e-6, description: "MIR, IR-C: 413–24.8 meV, 3–50 μm" },
+            { name: "Far IR", min: 50e-6, max: 1e-3, description: "FIR, IR-C: 24.8–1.24 meV, 50 μm–1 mm" },
+            
+            // Terahertz (THz) - overlaps with Far IR, but prioritized for 10μm-1mm range
+            { name: "Terahertz", min: 10e-6, max: 1e-3, description: "THz: 124–1.24 meV, 10 μm–1 mm, 30–0.3 THz" },
+            
+            // Microwave (MW)
+            { name: "Microwave", min: 1e-3, max: 1, description: "MW: 1.24 meV–1.24 μeV, 1 mm–1 m, 0.3–0.0003 THz" }
+        ];
+
+        // Function to identify spectral band
+        function identifySpectralBand(wavelengthInMeters) {
+            // Find all matching bands
+            const matchingBands = spectralBands.filter(band => 
+                wavelengthInMeters >= band.min && wavelengthInMeters < band.max
+            );
+            
+            if (matchingBands.length === 0) {
+                return { name: "Unknown", description: "Wavelength outside defined ranges" };
+            }
+            
+            // If multiple matches, prioritize more specific classifications
+            // Terahertz takes priority over Far IR in overlapping range
+            const priorityOrder = ["Terahertz", "Far IR", "Mid IR", "Near IR-B", "Near IR"];
+            for (const priority of priorityOrder) {
+                const priorityBand = matchingBands.find(band => band.name === priority);
+                if (priorityBand) return priorityBand;
+            }
+            
+            // Return first match if no priority found
+            return matchingBands[0];
+        }
+
+        // Function to update spectral band display
+        function updateSpectralBandDisplay(wavelengthInMeters) {
+            if (!spectralBandDisplay || !bandNameElement || !bandDescriptionElement) return;
+            
+            const band = identifySpectralBand(wavelengthInMeters);
+            bandNameElement.textContent = band.name;
+            bandDescriptionElement.textContent = band.description;
+            
+            if (!spectralBandDisplay.classList.contains('visible')) {
+                spectralBandDisplay.classList.add('visible');
+            }
+        }
 
         // Unit conversion factors to eV
         const energyFactors = {
@@ -691,20 +823,31 @@ document.addEventListener('DOMContentLoaded', () => {
             'm-1': 1
         };
 
+        // Unit conversion factors for time (to s)
+        const timeFactors = {
+            'fs': 1e-15,
+            'ps': 1e-12,
+            'ns': 1e-9,
+            'µs': 1e-6,
+            'ms': 1e-3,
+            's': 1
+        };
+
         let lastUltimateChanged = null;
 
         function updateFromEnergy() {
+            const energyValue = parseFloat(energyInput.value);
+            if (isNaN(energyValue) || energyValue === '' || energyValue <= 0) return;
+            
             if (lastUltimateChanged === 'energy') return;
             lastUltimateChanged = 'energy';
-
-            const energyValue = parseFloat(energyInput.value);
-            if (isNaN(energyValue) || energyValue === '') return;
 
             const energyUnit = getCurrentUnit('energy-unit') || 'eV';
             const tempUnit = getCurrentUnit('temperature-unit') || 'K';
             const wavelengthUnit = getCurrentUnit('wavelength-unit') || 'nm';
             const frequencyUnit = getCurrentUnit('frequency-unit') || 'THz';
             const wavenumberUnit = getCurrentUnit('wavenumber-unit') || 'cm-1';
+            const timeUnit = getCurrentUnit('time-unit') || 'ps';
 
             const energyInEv = energyValue * energyFactors[energyUnit];
             
@@ -727,26 +870,35 @@ document.addEventListener('DOMContentLoaded', () => {
             const wavenumberInM = energyInEv / (h * c);
             const wavenumberInTargetUnit = wavenumberInM / wavenumberFactors[wavenumberUnit];
 
-            temperatureInput.value = tempInTargetUnit.toExponential(4);
-            wavelengthInput.value = wavelengthInTargetUnit.toExponential(4);
-            frequencyInput.value = frequencyInTargetUnit.toExponential(4);
-            wavenumberInput.value = wavenumberInTargetUnit.toExponential(4);
+            // Convert to time (period): T = h / E
+            const timeInS = h / energyInEv;
+            const timeInTargetUnit = timeInS / timeFactors[timeUnit];
+
+            temperatureInput.value = formatNumber(tempInTargetUnit);
+            wavelengthInput.value = formatNumber(wavelengthInTargetUnit);
+            frequencyInput.value = formatNumber(frequencyInTargetUnit);
+            wavenumberInput.value = formatNumber(wavenumberInTargetUnit);
+            timeInput.value = formatNumber(timeInTargetUnit);
+            
+            // Update spectral band display
+            updateSpectralBandDisplay(wavelengthInM);
             
             setTimeout(() => lastUltimateChanged = null, 100);
         }
 
         function updateFromTemperature() {
-            if (lastUltimateChanged === 'temperature') return;
-            lastUltimateChanged = 'temperature';
-
             const tempValue = parseFloat(temperatureInput.value);
             if (isNaN(tempValue) || tempValue === '') return;
+            
+            if (lastUltimateChanged === 'temperature') return;
+            lastUltimateChanged = 'temperature';
 
             const energyUnit = getCurrentUnit('energy-unit') || 'eV';
             const tempUnit = getCurrentUnit('temperature-unit') || 'K';
             const wavelengthUnit = getCurrentUnit('wavelength-unit') || 'nm';
             const frequencyUnit = getCurrentUnit('frequency-unit') || 'THz';
             const wavenumberUnit = getCurrentUnit('wavenumber-unit') || 'cm-1';
+            const timeUnit = getCurrentUnit('time-unit') || 'ps';
 
             let tempInK = tempValue;
             if (tempUnit === '°C') {
@@ -768,26 +920,35 @@ document.addEventListener('DOMContentLoaded', () => {
             const wavenumberInM = energyInEv / (h * c);
             const wavenumberInTargetUnit = wavenumberInM / wavenumberFactors[wavenumberUnit];
 
-            energyInput.value = energyInTargetUnit.toExponential(4);
-            wavelengthInput.value = wavelengthInTargetUnit.toExponential(4);
-            frequencyInput.value = frequencyInTargetUnit.toExponential(4);
-            wavenumberInput.value = wavenumberInTargetUnit.toExponential(4);
+            // Convert to time (period): T = h / E
+            const timeInS = h / energyInEv;
+            const timeInTargetUnit = timeInS / timeFactors[timeUnit];
+
+            energyInput.value = formatNumber(energyInTargetUnit);
+            wavelengthInput.value = formatNumber(wavelengthInTargetUnit);
+            frequencyInput.value = formatNumber(frequencyInTargetUnit);
+            wavenumberInput.value = formatNumber(wavenumberInTargetUnit);
+            timeInput.value = formatNumber(timeInTargetUnit);
+            
+            // Update spectral band display
+            updateSpectralBandDisplay(wavelengthInM);
             
             setTimeout(() => lastUltimateChanged = null, 100);
         }
 
         function updateFromWavelength() {
+            const wavelengthValue = parseFloat(wavelengthInput.value);
+            if (isNaN(wavelengthValue) || wavelengthValue === '' || wavelengthValue <= 0) return;
+            
             if (lastUltimateChanged === 'wavelength') return;
             lastUltimateChanged = 'wavelength';
-
-            const wavelengthValue = parseFloat(wavelengthInput.value);
-            if (isNaN(wavelengthValue) || wavelengthValue === '') return;
 
             const energyUnit = getCurrentUnit('energy-unit') || 'eV';
             const tempUnit = getCurrentUnit('temperature-unit') || 'K';
             const wavelengthUnit = getCurrentUnit('wavelength-unit') || 'nm';
             const frequencyUnit = getCurrentUnit('frequency-unit') || 'THz';
             const wavenumberUnit = getCurrentUnit('wavenumber-unit') || 'cm-1';
+            const timeUnit = getCurrentUnit('time-unit') || 'ps';
 
             const wavelengthInM = wavelengthValue * wavelengthFactors[wavelengthUnit];
             
@@ -810,26 +971,35 @@ document.addEventListener('DOMContentLoaded', () => {
             const wavenumberInM = 1 / wavelengthInM;
             const wavenumberInTargetUnit = wavenumberInM / wavenumberFactors[wavenumberUnit];
 
-            energyInput.value = energyInTargetUnit.toExponential(4);
-            temperatureInput.value = tempInTargetUnit.toExponential(4);
-            frequencyInput.value = frequencyInTargetUnit.toExponential(4);
-            wavenumberInput.value = wavenumberInTargetUnit.toExponential(4);
+            // Convert to time (period): T = λ / c
+            const timeInS = wavelengthInM / c;
+            const timeInTargetUnit = timeInS / timeFactors[timeUnit];
+
+            energyInput.value = formatNumber(energyInTargetUnit);
+            temperatureInput.value = formatNumber(tempInTargetUnit);
+            frequencyInput.value = formatNumber(frequencyInTargetUnit);
+            wavenumberInput.value = formatNumber(wavenumberInTargetUnit);
+            timeInput.value = formatNumber(timeInTargetUnit);
+            
+            // Update spectral band display
+            updateSpectralBandDisplay(wavelengthInM);
             
             setTimeout(() => lastUltimateChanged = null, 100);
         }
 
         function updateFromFrequency() {
+            const frequencyValue = parseFloat(frequencyInput.value);
+            if (isNaN(frequencyValue) || frequencyValue === '' || frequencyValue <= 0) return;
+            
             if (lastUltimateChanged === 'frequency') return;
             lastUltimateChanged = 'frequency';
-
-            const frequencyValue = parseFloat(frequencyInput.value);
-            if (isNaN(frequencyValue) || frequencyValue === '') return;
 
             const energyUnit = getCurrentUnit('energy-unit') || 'eV';
             const tempUnit = getCurrentUnit('temperature-unit') || 'K';
             const wavelengthUnit = getCurrentUnit('wavelength-unit') || 'nm';
             const frequencyUnit = getCurrentUnit('frequency-unit') || 'THz';
             const wavenumberUnit = getCurrentUnit('wavenumber-unit') || 'cm-1';
+            const timeUnit = getCurrentUnit('time-unit') || 'ps';
 
             const frequencyInHz = frequencyValue * frequencyFactors[frequencyUnit];
             
@@ -852,26 +1022,35 @@ document.addEventListener('DOMContentLoaded', () => {
             const wavenumberInM = frequencyInHz / c;
             const wavenumberInTargetUnit = wavenumberInM / wavenumberFactors[wavenumberUnit];
 
-            energyInput.value = energyInTargetUnit.toExponential(4);
-            temperatureInput.value = tempInTargetUnit.toExponential(4);
-            wavelengthInput.value = wavelengthInTargetUnit.toExponential(4);
-            wavenumberInput.value = wavenumberInTargetUnit.toExponential(4);
+            // Convert to time (period): T = 1 / f
+            const timeInS = 1 / frequencyInHz;
+            const timeInTargetUnit = timeInS / timeFactors[timeUnit];
+
+            energyInput.value = formatNumber(energyInTargetUnit);
+            temperatureInput.value = formatNumber(tempInTargetUnit);
+            wavelengthInput.value = formatNumber(wavelengthInTargetUnit);
+            wavenumberInput.value = formatNumber(wavenumberInTargetUnit);
+            timeInput.value = formatNumber(timeInTargetUnit);
+            
+            // Update spectral band display
+            updateSpectralBandDisplay(wavelengthInM);
             
             setTimeout(() => lastUltimateChanged = null, 100);
         }
 
         function updateFromWavenumber() {
+            const wavenumberValue = parseFloat(wavenumberInput.value);
+            if (isNaN(wavenumberValue) || wavenumberValue === '' || wavenumberValue <= 0) return;
+            
             if (lastUltimateChanged === 'wavenumber') return;
             lastUltimateChanged = 'wavenumber';
-
-            const wavenumberValue = parseFloat(wavenumberInput.value);
-            if (isNaN(wavenumberValue) || wavenumberValue === '') return;
 
             const energyUnit = getCurrentUnit('energy-unit') || 'eV';
             const tempUnit = getCurrentUnit('temperature-unit') || 'K';
             const wavelengthUnit = getCurrentUnit('wavelength-unit') || 'nm';
             const frequencyUnit = getCurrentUnit('frequency-unit') || 'THz';
             const wavenumberUnit = getCurrentUnit('wavenumber-unit') || 'cm-1';
+            const timeUnit = getCurrentUnit('time-unit') || 'ps';
 
             const wavenumberInM = wavenumberValue * wavenumberFactors[wavenumberUnit];
             
@@ -894,10 +1073,69 @@ document.addEventListener('DOMContentLoaded', () => {
             const frequencyInHz = c * wavenumberInM;
             const frequencyInTargetUnit = frequencyInHz / frequencyFactors[frequencyUnit];
 
-            energyInput.value = energyInTargetUnit.toExponential(4);
-            temperatureInput.value = tempInTargetUnit.toExponential(4);
-            wavelengthInput.value = wavelengthInTargetUnit.toExponential(4);
-            frequencyInput.value = frequencyInTargetUnit.toExponential(4);
+            // Convert to time (period): T = 1 / (c * k)
+            const timeInS = 1 / (c * wavenumberInM);
+            const timeInTargetUnit = timeInS / timeFactors[timeUnit];
+
+            energyInput.value = formatNumber(energyInTargetUnit);
+            temperatureInput.value = formatNumber(tempInTargetUnit);
+            wavelengthInput.value = formatNumber(wavelengthInTargetUnit);
+            frequencyInput.value = formatNumber(frequencyInTargetUnit);
+            timeInput.value = formatNumber(timeInTargetUnit);
+            
+            // Update spectral band display
+            updateSpectralBandDisplay(wavelengthInM);
+            
+            setTimeout(() => lastUltimateChanged = null, 100);
+        }
+
+        function updateFromTime() {
+            const timeValue = parseFloat(timeInput.value);
+            if (isNaN(timeValue) || timeValue === '' || timeValue <= 0) return;
+            
+            if (lastUltimateChanged === 'time') return;
+            lastUltimateChanged = 'time';
+
+            const energyUnit = getCurrentUnit('energy-unit') || 'eV';
+            const tempUnit = getCurrentUnit('temperature-unit') || 'K';
+            const wavelengthUnit = getCurrentUnit('wavelength-unit') || 'nm';
+            const frequencyUnit = getCurrentUnit('frequency-unit') || 'THz';
+            const wavenumberUnit = getCurrentUnit('wavenumber-unit') || 'cm-1';
+            const timeUnit = getCurrentUnit('time-unit') || 'ps';
+
+            const timeInS = timeValue * timeFactors[timeUnit];
+            
+            // Convert to frequency: f = 1 / T
+            const frequencyInHz = 1 / timeInS;
+            const frequencyInTargetUnit = frequencyInHz / frequencyFactors[frequencyUnit];
+            
+            // Convert to energy: E = h / T
+            const energyInEv = h / timeInS;
+            const energyInTargetUnit = energyInEv / energyFactors[energyUnit];
+            
+            // Convert to temperature: T = E / kB
+            let tempInK = energyInEv / kB;
+            let tempInTargetUnit = tempInK;
+            if (tempUnit === '°C') {
+                tempInTargetUnit = tempInK - 273.15;
+            }
+            
+            // Convert to wavelength: λ = c * T
+            const wavelengthInM = c * timeInS;
+            const wavelengthInTargetUnit = wavelengthInM / wavelengthFactors[wavelengthUnit];
+            
+            // Convert to wavenumber: k = 1 / (c * T)
+            const wavenumberInM = 1 / (c * timeInS);
+            const wavenumberInTargetUnit = wavenumberInM / wavenumberFactors[wavenumberUnit];
+
+            energyInput.value = formatNumber(energyInTargetUnit);
+            temperatureInput.value = formatNumber(tempInTargetUnit);
+            wavelengthInput.value = formatNumber(wavelengthInTargetUnit);
+            frequencyInput.value = formatNumber(frequencyInTargetUnit);
+            wavenumberInput.value = formatNumber(wavenumberInTargetUnit);
+            
+            // Update spectral band display
+            updateSpectralBandDisplay(wavelengthInM);
             
             setTimeout(() => lastUltimateChanged = null, 100);
         }
@@ -908,17 +1146,82 @@ document.addEventListener('DOMContentLoaded', () => {
         const wavelengthSelect = document.querySelector('[data-target="wavelength-unit"]');
         const frequencySelect = document.querySelector('[data-target="frequency-unit"]');
         const wavenumberSelect = document.querySelector('[data-target="wavenumber-unit"]');
+        const timeSelect = document.querySelector('[data-target="time-unit"]');
         if (energySelect) energySelect.currentValue = 'eV';
         if (temperatureSelect) temperatureSelect.currentValue = 'K';
         if (wavelengthSelect) wavelengthSelect.currentValue = 'nm';
         if (frequencySelect) frequencySelect.currentValue = 'THz';
         if (wavenumberSelect) wavenumberSelect.currentValue = 'cm-1';
+        if (timeSelect) timeSelect.currentValue = 'ps';
 
-        energyInput.addEventListener('input', updateFromEnergy);
-        temperatureInput.addEventListener('input', updateFromTemperature);
-        wavelengthInput.addEventListener('input', updateFromWavelength);
-        frequencyInput.addEventListener('input', updateFromFrequency);
-        wavenumberInput.addEventListener('input', updateFromWavenumber);
+        // Function to clear other inputs when one is cleared
+        function clearOtherInputs(currentInput) {
+            const inputs = [energyInput, temperatureInput, wavelengthInput, frequencyInput, wavenumberInput, timeInput];
+            inputs.forEach(input => {
+                if (input !== currentInput) {
+                    input.value = '';
+                }
+            });
+            // Hide spectral band display when all inputs are cleared
+            if (spectralBandDisplay) {
+                spectralBandDisplay.classList.remove('visible');
+            }
+        }
+
+        // Enhanced input event listeners that handle clearing
+        energyInput.addEventListener('input', (e) => {
+            if (e.target.value.trim() === '') {
+                clearOtherInputs(energyInput);
+                lastUltimateChanged = null;
+            } else {
+                updateFromEnergy();
+            }
+        });
+        
+        temperatureInput.addEventListener('input', (e) => {
+            if (e.target.value.trim() === '') {
+                clearOtherInputs(temperatureInput);
+                lastUltimateChanged = null;
+            } else {
+                updateFromTemperature();
+            }
+        });
+        
+        wavelengthInput.addEventListener('input', (e) => {
+            if (e.target.value.trim() === '') {
+                clearOtherInputs(wavelengthInput);
+                lastUltimateChanged = null;
+            } else {
+                updateFromWavelength();
+            }
+        });
+        
+        frequencyInput.addEventListener('input', (e) => {
+            if (e.target.value.trim() === '') {
+                clearOtherInputs(frequencyInput);
+                lastUltimateChanged = null;
+            } else {
+                updateFromFrequency();
+            }
+        });
+        
+        wavenumberInput.addEventListener('input', (e) => {
+            if (e.target.value.trim() === '') {
+                clearOtherInputs(wavenumberInput);
+                lastUltimateChanged = null;
+            } else {
+                updateFromWavenumber();
+            }
+        });
+        
+        timeInput.addEventListener('input', (e) => {
+            if (e.target.value.trim() === '') {
+                clearOtherInputs(timeInput);
+                lastUltimateChanged = null;
+            } else {
+                updateFromTime();
+            }
+        });
     }
 
     // Gaussian Beam Calculator
@@ -982,8 +1285,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const divergenceInRad = wavelengthInM / (Math.PI * beamWaistInM);
             const divergenceInTargetUnit = divergenceInRad / angleFactors[divergenceUnit];
 
-            rayleighRangeOutput.value = rayleighRangeInTargetUnit.toExponential(4);
-            divergenceOutput.value = divergenceInTargetUnit.toExponential(4);
+            rayleighRangeOutput.value = formatNumber(rayleighRangeInTargetUnit);
+            divergenceOutput.value = formatNumber(divergenceInTargetUnit);
 
             // Calculate beam radius at distance if distance is provided
             const distanceValue = parseFloat(distanceInput.value);
@@ -994,7 +1297,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const beamRadiusInM = beamWaistInM * Math.sqrt(1 + Math.pow(distanceInM / rayleighRangeInM, 2));
                 const beamRadiusInTargetUnit = beamRadiusInM / beamSizeFactors[beamRadiusUnit];
                 
-                beamRadiusOutput.value = beamRadiusInTargetUnit.toExponential(4);
+                beamRadiusOutput.value = formatNumber(beamRadiusInTargetUnit);
             } else {
                 beamRadiusOutput.value = '';
             }
@@ -1018,6 +1321,379 @@ document.addEventListener('DOMContentLoaded', () => {
         beamWavelengthInput.addEventListener('input', calculateGaussianBeam);
         beamWaistInput.addEventListener('input', calculateGaussianBeam);
         distanceInput.addEventListener('input', calculateGaussianBeam);
+    }
+
+    // Graphene Conversions Calculator
+    const carrierDensityInput = document.getElementById('carrier-density-input');
+    const fermiEnergyInput = document.getElementById('fermi-energy-input');
+    const fermiWavenumberInput = document.getElementById('fermi-wavenumber-input');
+    const gateVoltageSiO2Input = document.getElementById('gate-voltage-sio2-input');
+    const gateVoltageHBNInput = document.getElementById('gate-voltage-hbn-input');
+    const sio2ThicknessInput = document.getElementById('sio2-thickness-input');
+    const hbnThicknessInput = document.getElementById('hbn-thickness-input');
+
+    if (carrierDensityInput && fermiEnergyInput && fermiWavenumberInput && gateVoltageSiO2Input && gateVoltageHBNInput && sio2ThicknessInput && hbnThicknessInput) {
+        // Physical constants
+        const eps0 = 8.854e-12; // F/m
+        const e = 1.602e-19;     // C
+        const hbar = 1.055e-34;  // Js
+        const h = 6.626e-34;     // Js (Planck constant)
+        const vF = 1e6;          // m/s (Fermi velocity for graphene)
+        const c = 3e8;           // m/s
+
+        // Material constants
+        const eps_SiO2 = 3.9;
+        const eps_hBN = 3.0;
+
+        // Unit conversion factors
+        const carrierDensityFactors = {
+            'cm-2': 1e4,  // cm^-2 to m^-2
+            'm-2': 1      // m^-2 to m^-2
+        };
+
+        const fermiEnergyFactors = {
+            'meV': 1e-3,
+            'eV': 1,
+            'J': 6.242e18  // J to eV
+        };
+
+        const fermiWavenumberFactors = {
+            'mm-1': 1e3,
+            'cm-1': 1e2,
+            'm-1': 1
+        };
+
+        const voltageFactors = {
+            'mV': 1e-3,
+            'V': 1
+        };
+
+        const thicknessFactors = {
+            'nm': 1e-9,
+            'μm': 1e-6
+        };
+
+        let lastGrapheneChanged = null;
+
+        function updateFromCarrierDensity() {
+            const carrierDensityValue = parseFloat(carrierDensityInput.value);
+            if (isNaN(carrierDensityValue) || carrierDensityValue === '' || carrierDensityValue <= 0) return;
+            
+            if (lastGrapheneChanged === 'carrier-density') return;
+            lastGrapheneChanged = 'carrier-density';
+
+            const carrierDensityUnit = getCurrentUnit('carrier-density-unit') || 'cm-2';
+            const fermiEnergyUnit = getCurrentUnit('fermi-energy-unit') || 'eV';
+            const fermiWavenumberUnit = getCurrentUnit('fermi-wavenumber-unit') || 'cm-1';
+            const gateVoltageSiO2Unit = getCurrentUnit('gate-voltage-sio2-unit') || 'V';
+            const gateVoltageHBNUnit = getCurrentUnit('gate-voltage-hbn-unit') || 'V';
+            const sio2ThicknessUnit = getCurrentUnit('sio2-thickness-unit') || 'nm';
+            const hbnThicknessUnit = getCurrentUnit('hbn-thickness-unit') || 'nm';
+
+            // Convert to base units (m^-2)
+            const n_m2 = carrierDensityValue * carrierDensityFactors[carrierDensityUnit];
+
+            // Calculate Fermi energy: E_F = ħv_F√(πn)
+            const Ef_J = hbar * vF * Math.sqrt(Math.PI * n_m2);
+            const Ef_eV = Ef_J / e;
+            const fermiEnergyInTargetUnit = Ef_eV / fermiEnergyFactors[fermiEnergyUnit];
+
+            // Calculate Fermi wavenumber: ν̃ = E_F / (hc)
+            const fermiWavenumberInM = Ef_J / (h * c);
+            const fermiWavenumberInTargetUnit = fermiWavenumberInM / fermiWavenumberFactors[fermiWavenumberUnit];
+
+            // Calculate gate voltage for SiO2: V_g = (n * e * d) / (ε₀ * ε_r)
+            const sio2ThicknessValue = parseFloat(sio2ThicknessInput.value) || 285;
+            const d_SiO2_m = sio2ThicknessValue * thicknessFactors[sio2ThicknessUnit];
+            const Vg_SiO2 = (n_m2 * e * d_SiO2_m) / (eps0 * eps_SiO2);
+            const gateVoltageSiO2InTargetUnit = Vg_SiO2 / voltageFactors[gateVoltageSiO2Unit];
+
+            // Calculate gate voltage for hBN
+            const hbnThicknessValue = parseFloat(hbnThicknessInput.value) || 10;
+            const d_hBN_m = hbnThicknessValue * thicknessFactors[hbnThicknessUnit];
+            const Vg_hBN = (n_m2 * e * d_hBN_m) / (eps0 * eps_hBN);
+            const gateVoltageHBNInTargetUnit = Vg_hBN / voltageFactors[gateVoltageHBNUnit];
+
+            fermiEnergyInput.value = formatNumber(fermiEnergyInTargetUnit);
+            fermiWavenumberInput.value = formatNumber(fermiWavenumberInTargetUnit);
+            gateVoltageSiO2Input.value = formatNumber(gateVoltageSiO2InTargetUnit);
+            gateVoltageHBNInput.value = formatNumber(gateVoltageHBNInTargetUnit);
+
+            setTimeout(() => lastGrapheneChanged = null, 100);
+        }
+
+        function updateFromFermiEnergy() {
+            const fermiEnergyValue = parseFloat(fermiEnergyInput.value);
+            if (isNaN(fermiEnergyValue) || fermiEnergyValue === '' || fermiEnergyValue <= 0) return;
+            
+            if (lastGrapheneChanged === 'fermi-energy') return;
+            lastGrapheneChanged = 'fermi-energy';
+
+            const carrierDensityUnit = getCurrentUnit('carrier-density-unit') || 'cm-2';
+            const fermiEnergyUnit = getCurrentUnit('fermi-energy-unit') || 'eV';
+            const fermiWavenumberUnit = getCurrentUnit('fermi-wavenumber-unit') || 'cm-1';
+            const gateVoltageSiO2Unit = getCurrentUnit('gate-voltage-sio2-unit') || 'V';
+            const gateVoltageHBNUnit = getCurrentUnit('gate-voltage-hbn-unit') || 'V';
+            const sio2ThicknessUnit = getCurrentUnit('sio2-thickness-unit') || 'nm';
+            const hbnThicknessUnit = getCurrentUnit('hbn-thickness-unit') || 'nm';
+
+            // Convert to base units (eV)
+            const Ef_eV = fermiEnergyValue * fermiEnergyFactors[fermiEnergyUnit];
+            const Ef_J = Ef_eV * e;
+
+            // Calculate carrier density: n = (E_F / (ħv_F))² / π
+            const n_m2 = Math.pow(Ef_J / (hbar * vF), 2) / Math.PI;
+            const carrierDensityInTargetUnit = n_m2 / carrierDensityFactors[carrierDensityUnit];
+
+            // Calculate Fermi wavenumber: ν̃ = E_F / (hc)
+            const fermiWavenumberInM = Ef_J / (h * c);
+            const fermiWavenumberInTargetUnit = fermiWavenumberInM / fermiWavenumberFactors[fermiWavenumberUnit];
+
+            // Calculate gate voltages
+            const sio2ThicknessValue = parseFloat(sio2ThicknessInput.value) || 285;
+            const d_SiO2_m = sio2ThicknessValue * thicknessFactors[sio2ThicknessUnit];
+            const Vg_SiO2 = (n_m2 * e * d_SiO2_m) / (eps0 * eps_SiO2);
+            const gateVoltageSiO2InTargetUnit = Vg_SiO2 / voltageFactors[gateVoltageSiO2Unit];
+
+            const hbnThicknessValue = parseFloat(hbnThicknessInput.value) || 10;
+            const d_hBN_m = hbnThicknessValue * thicknessFactors[hbnThicknessUnit];
+            const Vg_hBN = (n_m2 * e * d_hBN_m) / (eps0 * eps_hBN);
+            const gateVoltageHBNInTargetUnit = Vg_hBN / voltageFactors[gateVoltageHBNUnit];
+
+            carrierDensityInput.value = formatNumber(carrierDensityInTargetUnit);
+            fermiWavenumberInput.value = formatNumber(fermiWavenumberInTargetUnit);
+            gateVoltageSiO2Input.value = formatNumber(gateVoltageSiO2InTargetUnit);
+            gateVoltageHBNInput.value = formatNumber(gateVoltageHBNInTargetUnit);
+
+            setTimeout(() => lastGrapheneChanged = null, 100);
+        }
+
+        function updateFromFermiWavenumber() {
+            const fermiWavenumberValue = parseFloat(fermiWavenumberInput.value);
+            if (isNaN(fermiWavenumberValue) || fermiWavenumberValue === '' || fermiWavenumberValue <= 0) return;
+            
+            if (lastGrapheneChanged === 'fermi-wavenumber') return;
+            lastGrapheneChanged = 'fermi-wavenumber';
+
+            const carrierDensityUnit = getCurrentUnit('carrier-density-unit') || 'cm-2';
+            const fermiEnergyUnit = getCurrentUnit('fermi-energy-unit') || 'eV';
+            const fermiWavenumberUnit = getCurrentUnit('fermi-wavenumber-unit') || 'cm-1';
+            const gateVoltageSiO2Unit = getCurrentUnit('gate-voltage-sio2-unit') || 'V';
+            const gateVoltageHBNUnit = getCurrentUnit('gate-voltage-hbn-unit') || 'V';
+            const sio2ThicknessUnit = getCurrentUnit('sio2-thickness-unit') || 'nm';
+            const hbnThicknessUnit = getCurrentUnit('hbn-thickness-unit') || 'nm';
+
+            // Convert to base units (m^-1)
+            const fermiWavenumberInM = fermiWavenumberValue * fermiWavenumberFactors[fermiWavenumberUnit];
+
+            // Calculate Fermi energy: E_F = hcν̃
+            const Ef_J = h * c * fermiWavenumberInM;
+            const Ef_eV = Ef_J / e;
+            const fermiEnergyInTargetUnit = Ef_eV / fermiEnergyFactors[fermiEnergyUnit];
+
+            // Calculate carrier density
+            const n_m2 = Math.pow(Ef_J / (hbar * vF), 2) / Math.PI;
+            const carrierDensityInTargetUnit = n_m2 / carrierDensityFactors[carrierDensityUnit];
+
+            // Calculate gate voltages
+            const sio2ThicknessValue = parseFloat(sio2ThicknessInput.value) || 285;
+            const d_SiO2_m = sio2ThicknessValue * thicknessFactors[sio2ThicknessUnit];
+            const Vg_SiO2 = (n_m2 * e * d_SiO2_m) / (eps0 * eps_SiO2);
+            const gateVoltageSiO2InTargetUnit = Vg_SiO2 / voltageFactors[gateVoltageSiO2Unit];
+
+            const hbnThicknessValue = parseFloat(hbnThicknessInput.value) || 10;
+            const d_hBN_m = hbnThicknessValue * thicknessFactors[hbnThicknessUnit];
+            const Vg_hBN = (n_m2 * e * d_hBN_m) / (eps0 * eps_hBN);
+            const gateVoltageHBNInTargetUnit = Vg_hBN / voltageFactors[gateVoltageHBNUnit];
+
+            carrierDensityInput.value = formatNumber(carrierDensityInTargetUnit);
+            fermiEnergyInput.value = formatNumber(fermiEnergyInTargetUnit);
+            gateVoltageSiO2Input.value = formatNumber(gateVoltageSiO2InTargetUnit);
+            gateVoltageHBNInput.value = formatNumber(gateVoltageHBNInTargetUnit);
+
+            setTimeout(() => lastGrapheneChanged = null, 100);
+        }
+
+        function updateFromGateVoltageSiO2() {
+            const gateVoltageValue = parseFloat(gateVoltageSiO2Input.value);
+            const sio2ThicknessValue = parseFloat(sio2ThicknessInput.value);
+            if (isNaN(gateVoltageValue) || gateVoltageValue === '' || isNaN(sio2ThicknessValue) || sio2ThicknessValue <= 0) return;
+            
+            if (lastGrapheneChanged === 'gate-voltage-sio2') return;
+            lastGrapheneChanged = 'gate-voltage-sio2';
+
+            const carrierDensityUnit = getCurrentUnit('carrier-density-unit') || 'cm-2';
+            const fermiEnergyUnit = getCurrentUnit('fermi-energy-unit') || 'eV';
+            const fermiWavenumberUnit = getCurrentUnit('fermi-wavenumber-unit') || 'cm-1';
+            const gateVoltageSiO2Unit = getCurrentUnit('gate-voltage-sio2-unit') || 'V';
+            const gateVoltageHBNUnit = getCurrentUnit('gate-voltage-hbn-unit') || 'V';
+            const sio2ThicknessUnit = getCurrentUnit('sio2-thickness-unit') || 'nm';
+            const hbnThicknessUnit = getCurrentUnit('hbn-thickness-unit') || 'nm';
+
+            // Convert to base units (V)
+            const Vg_V = gateVoltageValue * voltageFactors[gateVoltageSiO2Unit];
+
+            // Calculate carrier density: n = (ε₀ * ε_r * V_g) / (e * d)
+            const d_SiO2_m = sio2ThicknessValue * thicknessFactors[sio2ThicknessUnit];
+            const n_m2 = (eps0 * eps_SiO2 * Vg_V) / (e * d_SiO2_m);
+            const carrierDensityInTargetUnit = n_m2 / carrierDensityFactors[carrierDensityUnit];
+
+            // Calculate Fermi energy
+            const Ef_J = hbar * vF * Math.sqrt(Math.PI * n_m2);
+            const Ef_eV = Ef_J / e;
+            const fermiEnergyInTargetUnit = Ef_eV / fermiEnergyFactors[fermiEnergyUnit];
+
+            // Calculate Fermi wavenumber: ν̃ = E_F / (hc)
+            const fermiWavenumberInM = Ef_J / (h * c);
+            const fermiWavenumberInTargetUnit = fermiWavenumberInM / fermiWavenumberFactors[fermiWavenumberUnit];
+
+            // Calculate hBN gate voltage
+            const hbnThicknessValue = parseFloat(hbnThicknessInput.value) || 10;
+            const d_hBN_m = hbnThicknessValue * thicknessFactors[hbnThicknessUnit];
+            const Vg_hBN = (n_m2 * e * d_hBN_m) / (eps0 * eps_hBN);
+            const gateVoltageHBNInTargetUnit = Vg_hBN / voltageFactors[gateVoltageHBNUnit];
+
+            carrierDensityInput.value = formatNumber(carrierDensityInTargetUnit);
+            fermiEnergyInput.value = formatNumber(fermiEnergyInTargetUnit);
+            fermiWavenumberInput.value = formatNumber(fermiWavenumberInTargetUnit);
+            gateVoltageHBNInput.value = formatNumber(gateVoltageHBNInTargetUnit);
+
+            setTimeout(() => lastGrapheneChanged = null, 100);
+        }
+
+        function updateFromGateVoltageHBN() {
+            const gateVoltageValue = parseFloat(gateVoltageHBNInput.value);
+            const hbnThicknessValue = parseFloat(hbnThicknessInput.value);
+            if (isNaN(gateVoltageValue) || gateVoltageValue === '' || isNaN(hbnThicknessValue) || hbnThicknessValue <= 0) return;
+            
+            if (lastGrapheneChanged === 'gate-voltage-hbn') return;
+            lastGrapheneChanged = 'gate-voltage-hbn';
+
+            const carrierDensityUnit = getCurrentUnit('carrier-density-unit') || 'cm-2';
+            const fermiEnergyUnit = getCurrentUnit('fermi-energy-unit') || 'eV';
+            const fermiWavenumberUnit = getCurrentUnit('fermi-wavenumber-unit') || 'cm-1';
+            const gateVoltageSiO2Unit = getCurrentUnit('gate-voltage-sio2-unit') || 'V';
+            const gateVoltageHBNUnit = getCurrentUnit('gate-voltage-hbn-unit') || 'V';
+            const sio2ThicknessUnit = getCurrentUnit('sio2-thickness-unit') || 'nm';
+            const hbnThicknessUnit = getCurrentUnit('hbn-thickness-unit') || 'nm';
+
+            // Convert to base units
+            const Vg_V = gateVoltageValue * voltageFactors[gateVoltageHBNUnit];
+            const d_hBN_m = hbnThicknessValue * thicknessFactors[hbnThicknessUnit];
+
+            // Calculate carrier density
+            const n_m2 = (eps0 * eps_hBN * Vg_V) / (e * d_hBN_m);
+            const carrierDensityInTargetUnit = n_m2 / carrierDensityFactors[carrierDensityUnit];
+
+            // Calculate Fermi energy
+            const Ef_J = hbar * vF * Math.sqrt(Math.PI * n_m2);
+            const Ef_eV = Ef_J / e;
+            const fermiEnergyInTargetUnit = Ef_eV / fermiEnergyFactors[fermiEnergyUnit];
+
+            // Calculate Fermi wavenumber: ν̃ = E_F / (hc)
+            const fermiWavenumberInM = Ef_J / (h * c);
+            const fermiWavenumberInTargetUnit = fermiWavenumberInM / fermiWavenumberFactors[fermiWavenumberUnit];
+
+            // Calculate SiO2 gate voltage
+            const sio2ThicknessValue = parseFloat(sio2ThicknessInput.value) || 285;
+            const d_SiO2_m = sio2ThicknessValue * thicknessFactors[sio2ThicknessUnit];
+            const Vg_SiO2 = (n_m2 * e * d_SiO2_m) / (eps0 * eps_SiO2);
+            const gateVoltageSiO2InTargetUnit = Vg_SiO2 / voltageFactors[gateVoltageSiO2Unit];
+
+            carrierDensityInput.value = formatNumber(carrierDensityInTargetUnit);
+            fermiEnergyInput.value = formatNumber(fermiEnergyInTargetUnit);
+            fermiWavenumberInput.value = formatNumber(fermiWavenumberInTargetUnit);
+            gateVoltageSiO2Input.value = formatNumber(gateVoltageSiO2InTargetUnit);
+
+            setTimeout(() => lastGrapheneChanged = null, 100);
+        }
+
+        // Function to clear other inputs when one is cleared
+        function clearOtherGrapheneInputs(currentInput) {
+            const inputs = [carrierDensityInput, fermiEnergyInput, fermiWavenumberInput, gateVoltageSiO2Input, gateVoltageHBNInput];
+            inputs.forEach(input => {
+                if (input !== currentInput) {
+                    input.value = '';
+                }
+            });
+        }
+
+        // Initialize default values for custom selects
+        const carrierDensitySelect = document.querySelector('[data-target="carrier-density-unit"]');
+        const fermiEnergySelect = document.querySelector('[data-target="fermi-energy-unit"]');
+        const fermiWavenumberSelect = document.querySelector('[data-target="fermi-wavenumber-unit"]');
+        const gateVoltageSiO2Select = document.querySelector('[data-target="gate-voltage-sio2-unit"]');
+        const gateVoltageHBNSelect = document.querySelector('[data-target="gate-voltage-hbn-unit"]');
+        const sio2ThicknessSelect = document.querySelector('[data-target="sio2-thickness-unit"]');
+        const hbnThicknessSelect = document.querySelector('[data-target="hbn-thickness-unit"]');
+        
+        if (carrierDensitySelect) carrierDensitySelect.currentValue = 'cm-2';
+        if (fermiEnergySelect) fermiEnergySelect.currentValue = 'eV';
+        if (fermiWavenumberSelect) fermiWavenumberSelect.currentValue = 'cm-1';
+        if (gateVoltageSiO2Select) gateVoltageSiO2Select.currentValue = 'V';
+        if (gateVoltageHBNSelect) gateVoltageHBNSelect.currentValue = 'V';
+        if (sio2ThicknessSelect) sio2ThicknessSelect.currentValue = 'nm';
+        if (hbnThicknessSelect) hbnThicknessSelect.currentValue = 'nm';
+
+        // Enhanced input event listeners
+        carrierDensityInput.addEventListener('input', (e) => {
+            if (e.target.value.trim() === '') {
+                clearOtherGrapheneInputs(carrierDensityInput);
+                lastGrapheneChanged = null;
+            } else {
+                updateFromCarrierDensity();
+            }
+        });
+
+        fermiEnergyInput.addEventListener('input', (e) => {
+            if (e.target.value.trim() === '') {
+                clearOtherGrapheneInputs(fermiEnergyInput);
+                lastGrapheneChanged = null;
+            } else {
+                updateFromFermiEnergy();
+            }
+        });
+
+        fermiWavenumberInput.addEventListener('input', (e) => {
+            if (e.target.value.trim() === '') {
+                clearOtherGrapheneInputs(fermiWavenumberInput);
+                lastGrapheneChanged = null;
+            } else {
+                updateFromFermiWavenumber();
+            }
+        });
+
+        gateVoltageSiO2Input.addEventListener('input', (e) => {
+            if (e.target.value.trim() === '') {
+                clearOtherGrapheneInputs(gateVoltageSiO2Input);
+                lastGrapheneChanged = null;
+            } else {
+                updateFromGateVoltageSiO2();
+            }
+        });
+
+        gateVoltageHBNInput.addEventListener('input', (e) => {
+            if (e.target.value.trim() === '') {
+                clearOtherGrapheneInputs(gateVoltageHBNInput);
+                lastGrapheneChanged = null;
+            } else {
+                updateFromGateVoltageHBN();
+            }
+        });
+
+        // SiO2 thickness change should trigger recalculation if SiO2 voltage has value
+        sio2ThicknessInput.addEventListener('input', () => {
+            if (gateVoltageSiO2Input.value.trim() !== '') {
+                updateFromGateVoltageSiO2();
+            }
+        });
+
+        // hBN thickness change should trigger recalculation if hBN voltage has value
+        hbnThicknessInput.addEventListener('input', () => {
+            if (gateVoltageHBNInput.value.trim() !== '') {
+                updateFromGateVoltageHBN();
+            }
+        });
     }
 
 

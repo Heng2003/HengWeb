@@ -226,6 +226,12 @@
                                     <span class="tool-name">Gaussian Beam Calculator</span>
                                 </button>
                             </li>
+                            <li class="tools-nav-item">
+                                <button class="tools-nav-btn" data-tool="graphene-conversion">
+                                  <span class="tool-icon">🧪</span>
+                                  <span class="tool-name">Graphene Conversion</span>
+                                </button>
+                            </li>
                         </ul>
                     </div>
 
@@ -235,7 +241,7 @@
                         <div class="tool-panel active" id="tool-ultimate-converter">
                             <div class="tool-header">
                                 <h3>Ultimate Converter</h3>
-                                <p>Convert between energy, temperature, wavelength, wavenumber, and frequency</p>
+                                <p>Convert between energy, temperature, wavelength, wavenumber, frequency, and time</p>
                             </div>
                             <div class="tool-content">
                                 <div class="converter-row">
@@ -255,7 +261,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="converter-arrow">⇄</div>
                                     <div class="input-group">
                                         <label for="temperature-input">Temperature</label>
                                         <div class="input-with-unit">
@@ -289,7 +294,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="converter-arrow">⇄</div>
                                     <div class="input-group">
                                         <label for="frequency-input">Frequency</label>
                                         <div class="input-with-unit">
@@ -325,10 +329,30 @@
                                         </div>
                                     </div>
                                     <div class="input-group">
-                                        <label>&nbsp;</label>
-                                        <div style="display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary); font-style: italic; font-size: 0.85rem;">
-                                            All quantities are interconnected
+                                        <label for="time-input">Time (Period)</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="time-input" placeholder="Enter value" step="any">
+                                            <div class="custom-select" data-target="time-unit">
+                                                <div class="select-selected">ps</div>
+                                                <div class="select-items">
+                                                    <div data-value="fs">fs</div>
+                                                    <div data-value="ps" class="selected">ps</div>
+                                                    <div data-value="ns">ns</div>
+                                                    <div data-value="µs">µs</div>
+                                                    <div data-value="ms">ms</div>
+                                                    <div data-value="s">s</div>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Spectral Band Display -->
+                                <div class="spectral-band-display" id="spectral-band-display">
+                                    <div class="band-info">
+                                        <span class="band-label">Spectral Band:</span>
+                                        <span class="band-name" id="band-name">-</span>
+                                        <span class="band-description" id="band-description"></span>
                                     </div>
                                 </div>
                                 <div class="tool-info">
@@ -453,6 +477,126 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Graphene Conversion -->
+                        <div class="tool-panel" id="tool-graphene-conversion">
+                            <div class="tool-header">
+                                <h3>Graphene Conversions</h3>
+                                <p>Convert between carrier density, Fermi energy, and gate voltages for graphene</p>
+                            </div>
+                            <div class="tool-content">
+                                <div class="converter-row">
+                                    <div class="input-group">
+                                        <label for="carrier-density-input">Carrier Density n</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="carrier-density-input" placeholder="Enter value" step="any">
+                                            <div class="custom-select" data-target="carrier-density-unit">
+                                                <div class="select-selected">cm⁻²</div>
+                                                <div class="select-items">
+                                                    <div data-value="cm-2" class="selected">cm⁻²</div>
+                                                    <div data-value="m-2">m⁻²</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="fermi-energy-input">Fermi Energy EF</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="fermi-energy-input" placeholder="Enter value" step="any">
+                                            <div class="custom-select" data-target="fermi-energy-unit">
+                                                <div class="select-selected">eV</div>
+                                                <div class="select-items">
+                                                    <div data-value="meV">meV</div>
+                                                    <div data-value="eV" class="selected">eV</div>
+                                                    <div data-value="J">J</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="converter-row">
+                                    <div class="input-group">
+                                        <label for="fermi-wavenumber-input">Fermi Wavenumber EF</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="fermi-wavenumber-input" placeholder="Enter value" step="any">
+                                            <div class="custom-select" data-target="fermi-wavenumber-unit">
+                                                <div class="select-selected">cm⁻¹</div>
+                                                <div class="select-items">
+                                                    <div data-value="mm-1">mm⁻¹</div>
+                                                    <div data-value="cm-1" class="selected">cm⁻¹</div>
+                                                    <div data-value="m-1">m⁻¹</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="gate-voltage-sio2-input">Vg (SiO₂)</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="gate-voltage-sio2-input" placeholder="Enter value" step="any">
+                                            <div class="custom-select" data-target="gate-voltage-sio2-unit">
+                                                <div class="select-selected">V</div>
+                                                <div class="select-items">
+                                                    <div data-value="mV">mV</div>
+                                                    <div data-value="V" class="selected">V</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="converter-row">
+                                    <div class="input-group">
+                                        <label for="gate-voltage-hbn-input">Vg (hBN)</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="gate-voltage-hbn-input" placeholder="Enter value" step="any">
+                                            <div class="custom-select" data-target="gate-voltage-hbn-unit">
+                                                <div class="select-selected">V</div>
+                                                <div class="select-items">
+                                                    <div data-value="mV">mV</div>
+                                                    <div data-value="V" class="selected">V</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="sio2-thickness-input">SiO₂ Thickness</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="sio2-thickness-input" placeholder="Enter thickness" step="any" value="285">
+                                            <div class="custom-select" data-target="sio2-thickness-unit">
+                                                <div class="select-selected">nm</div>
+                                                <div class="select-items">
+                                                    <div data-value="nm" class="selected">nm</div>
+                                                    <div data-value="μm">μm</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="converter-row">
+                                    <div class="input-group">
+                                        <label for="hbn-thickness-input">hBN Thickness</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="hbn-thickness-input" placeholder="Enter thickness" step="any" value="10">
+                                            <div class="custom-select" data-target="hbn-thickness-unit">
+                                                <div class="select-selected">nm</div>
+                                                <div class="select-items">
+                                                    <div data-value="nm" class="selected">nm</div>
+                                                    <div data-value="μm">μm</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <!-- Empty space for layout balance -->
+                                    </div>
+                                </div>
+                                <div class="tool-info">
+                                    <small>
+                                        SiO₂: εᵣ = 3.9 (adjustable thickness) | hBN: εᵣ = 3.0 (adjustable thickness) | vF = 10⁶ m/s
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
