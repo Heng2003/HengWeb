@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Personal website of Heng Wang, a PhD student in Physics and Astronomy at Stony Brook University. Research interests include condense matter physics, quantum materials, near-field optical microscopy.">
-    <meta name="keywords" content="Heng Wang, 王恒, Physics, Stony Brook University, PhD Student, Near-field, Condense Matter Physics, UNI-Lab, Mengkun Liu">
+    <meta name="description" content="Personal website of Heng Wang, a PhD student in Physics and Astronomy at Stony Brook University. Research interests include condensed matter physics, quantum materials, near-field optical microscopy.">
+    <meta name="keywords" content="Heng Wang, 王恒, Physics, Stony Brook University, PhD Student, Near-field, Condensed Matter Physics, UNI-Lab, Mengkun Liu">
     <title>Heng Wang | Personal Website</title>
 
     <!-- 网站图标 favicon -->
@@ -37,6 +37,7 @@
                     <li><a href="#about" class="nav-link">About</a></li>
                     <li><a href="#research" class="nav-link">Research</a></li>
                     <li><a href="#publications" class="nav-link">Publications</a></li>
+                    <li><a href="#tools" class="nav-link">Tools</a></li>
                     <li><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
@@ -77,7 +78,7 @@
             <div class="container">
                 <h2 class="section-title animate-on-scroll">About Me</h2>
                 <div class="about-layout"> <div class="about-image-wrapper animate-slide-from-left">
-                        <img src="/images/profile.jpg" alt="Heng Wang - Profile Picture">
+                        <img src="images/profile.jpg" alt="Heng Wang - Profile Picture">
                     </div>
                     <div class="about-text-content animate-slide-from-right">
                         <p>Hi! I am a PhD student in the <a href="https://www.stonybrook.edu/commcms/physics/" target="_blank" rel="noopener noreferrer">Department of Physics and Astronomy</a> at Stony Brook University, working with Prof. Mengkun Liu in the <a href="https://mengkunliu.wixsite.com/stonybrook" target="_blank" rel="noopener noreferrer">Ultrafast & Near-field Infrared Laboratory (UNI-Lab)</a></p>
@@ -204,7 +205,260 @@
             </div>
         </section>
 
-        <section id="contact" class="contact-section section alt-bg">
+        <section id="tools" class="tools-section section alt-bg">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Tools</h2>
+                <p class="section-intro animate-on-scroll">Useful tools for myself, and welcome for everybody to use!</p>
+                
+                <div class="tools-layout animate-on-scroll">
+                    <!-- Left sidebar navigation -->
+                    <div class="tools-nav">
+                        <ul class="tools-nav-list">
+                            <li class="tools-nav-item">
+                                <button class="tools-nav-btn active" data-tool="ultimate-converter">
+                                    <span class="tool-icon">🔄</span>
+                                    <span class="tool-name">Ultimate Converter</span>
+                                </button>
+                            </li>
+                            <li class="tools-nav-item">
+                                <button class="tools-nav-btn" data-tool="gaussian-beam">
+                                    <span class="tool-icon">📡</span>
+                                    <span class="tool-name">Gaussian Beam Calculator</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Right tool display area -->
+                    <div class="tools-display">
+                        <!-- Ultimate Converter -->
+                        <div class="tool-panel active" id="tool-ultimate-converter">
+                            <div class="tool-header">
+                                <h3>Ultimate Converter</h3>
+                                <p>Convert between energy, temperature, wavelength, wavenumber, and frequency</p>
+                            </div>
+                            <div class="tool-content">
+                                <div class="converter-row">
+                                    <div class="input-group">
+                                        <label for="energy-input">Energy</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="energy-input" placeholder="Enter value" step="any">
+                                            <div class="custom-select" data-target="energy-unit">
+                                                <div class="select-selected">eV</div>
+                                                <div class="select-items">
+                                                    <div data-value="meV">meV</div>
+                                                    <div data-value="eV" class="selected">eV</div>
+                                                    <div data-value="keV">keV</div>
+                                                    <div data-value="MeV">MeV</div>
+                                                    <div data-value="J">J</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="converter-arrow">⇄</div>
+                                    <div class="input-group">
+                                        <label for="temperature-input">Temperature</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="temperature-input" placeholder="Enter value" step="any">
+                                            <div class="custom-select" data-target="temperature-unit">
+                                                <div class="select-selected">K</div>
+                                                <div class="select-items">
+                                                    <div data-value="K" class="selected">K</div>
+                                                    <div data-value="°C">°C</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="converter-row">
+                                    <div class="input-group">
+                                        <label for="wavelength-input">Wavelength</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="wavelength-input" placeholder="Enter value" step="any">
+                                            <div class="custom-select" data-target="wavelength-unit">
+                                                <div class="select-selected">nm</div>
+                                                <div class="select-items">
+                                                    <div data-value="pm">pm</div>
+                                                    <div data-value="nm" class="selected">nm</div>
+                                                    <div data-value="μm">μm</div>
+                                                    <div data-value="mm">mm</div>
+                                                    <div data-value="cm">cm</div>
+                                                    <div data-value="m">m</div>
+                                                    <div data-value="km">km</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="converter-arrow">⇄</div>
+                                    <div class="input-group">
+                                        <label for="frequency-input">Frequency</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="frequency-input" placeholder="Enter value" step="any">
+                                            <div class="custom-select" data-target="frequency-unit">
+                                                <div class="select-selected">THz</div>
+                                                <div class="select-items">
+                                                    <div data-value="mHz">mHz</div>
+                                                    <div data-value="Hz">Hz</div>
+                                                    <div data-value="kHz">kHz</div>
+                                                    <div data-value="MHz">MHz</div>
+                                                    <div data-value="GHz">GHz</div>
+                                                    <div data-value="THz" class="selected">THz</div>
+                                                    <div data-value="PHz">PHz</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="converter-row">
+                                    <div class="input-group">
+                                        <label for="wavenumber-input">Wavenumber</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="wavenumber-input" placeholder="Enter value" step="any">
+                                            <div class="custom-select" data-target="wavenumber-unit">
+                                                <div class="select-selected">cm⁻¹</div>
+                                                <div class="select-items">
+                                                    <div data-value="mm-1">mm⁻¹</div>
+                                                    <div data-value="cm-1" class="selected">cm⁻¹</div>
+                                                    <div data-value="m-1">m⁻¹</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label>&nbsp;</label>
+                                        <div style="display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary); font-style: italic; font-size: 0.85rem;">
+                                            All quantities are interconnected
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tool-info">
+                                    <small>Using k<sub>B</sub> = 8.617×10<sup>-5</sup> eV/K, h = 4.136×10<sup>-15</sup> eV·s, c = 2.998×10<sup>8</sup> m/s</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gaussian Beam Calculator -->
+                        <div class="tool-panel" id="tool-gaussian-beam">
+                            <div class="tool-header">
+                                <h3>Gaussian Beam Calculator</h3>
+                                <p>Calculate beam parameters for Gaussian laser beams</p>
+                            </div>
+                            <div class="tool-content">
+                                <div class="converter-row">
+                                    <div class="input-group">
+                                        <label for="beam-wavelength-input">Wavelength (λ)</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="beam-wavelength-input" placeholder="Enter wavelength" step="any">
+                                            <div class="custom-select" data-target="beam-wavelength-unit">
+                                                <div class="select-selected">nm</div>
+                                                <div class="select-items">
+                                                    <div data-value="nm" class="selected">nm</div>
+                                                    <div data-value="μm">μm</div>
+                                                    <div data-value="mm">mm</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="converter-arrow">→</div>
+                                    <div class="input-group">
+                                        <label for="beam-waist-input">Beam Waist (w₀)</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="beam-waist-input" placeholder="Enter beam waist" step="any">
+                                            <div class="custom-select" data-target="beam-waist-unit">
+                                                <div class="select-selected">μm</div>
+                                                <div class="select-items">
+                                                    <div data-value="nm">nm</div>
+                                                    <div data-value="μm" class="selected">μm</div>
+                                                    <div data-value="mm">mm</div>
+                                                    <div data-value="cm">cm</div>
+                                                    <div data-value="m">m</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="converter-row">
+                                    <div class="input-group">
+                                        <label for="rayleigh-range-output">Rayleigh Range (z<sub>R</sub>)</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="rayleigh-range-output" placeholder="Calculated" readonly>
+                                            <div class="custom-select" data-target="rayleigh-unit">
+                                                <div class="select-selected">mm</div>
+                                                <div class="select-items">
+                                                    <div data-value="μm">μm</div>
+                                                    <div data-value="mm" class="selected">mm</div>
+                                                    <div data-value="cm">cm</div>
+                                                    <div data-value="m">m</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="converter-arrow">→</div>
+                                    <div class="input-group">
+                                        <label for="divergence-output">Divergence (θ)</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="divergence-output" placeholder="Calculated" readonly>
+                                            <div class="custom-select" data-target="divergence-unit">
+                                                <div class="select-selected">mrad</div>
+                                                <div class="select-items">
+                                                    <div data-value="mrad" class="selected">mrad</div>
+                                                    <div data-value="rad">rad</div>
+                                                    <div data-value="deg">deg</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="converter-row">
+                                    <div class="input-group">
+                                        <label for="distance-input">Distance (z)</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="distance-input" placeholder="Enter distance" step="any">
+                                            <div class="custom-select" data-target="distance-unit">
+                                                <div class="select-selected">mm</div>
+                                                <div class="select-items">
+                                                    <div data-value="μm">μm</div>
+                                                    <div data-value="mm" class="selected">mm</div>
+                                                    <div data-value="cm">cm</div>
+                                                    <div data-value="m">m</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="converter-arrow">→</div>
+                                    <div class="input-group">
+                                        <label for="beam-radius-output">Beam Radius w(z)</label>
+                                        <div class="input-with-unit">
+                                            <input type="number" id="beam-radius-output" placeholder="Calculated" readonly>
+                                            <div class="custom-select" data-target="beam-radius-unit">
+                                                <div class="select-selected">μm</div>
+                                                <div class="select-items">
+                                                    <div data-value="nm">nm</div>
+                                                    <div data-value="μm" class="selected">μm</div>
+                                                    <div data-value="mm">mm</div>
+                                                    <div data-value="cm">cm</div>
+                                                    <div data-value="m">m</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tool-info">
+                                    <small>
+                                        Formulas: z<sub>R</sub> = πw₀²/λ, θ = λ/(πw₀), w(z) = w₀√(1 + (z/z<sub>R</sub>)²)
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section section">
         <div class="container">
             <h2 class="section-title animate-on-scroll">Contact Me</h2>
 
@@ -306,3 +560,4 @@
     <script src="js/script.js"></script>
 </body>
 </html>
+
