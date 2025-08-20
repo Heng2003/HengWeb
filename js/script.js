@@ -343,15 +343,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Update data index immediately
                 currentDataIndex = (currentDataIndex - 1 + researchData.length) % researchData.length;
                 
-                // Update content and find new highlighted position
+                // Update content and decide new highlighted position (move highlight to the left neighbor)
                 updateCarouselStylesAndContent();
                 
-                // Find where the highlighted project ended up
+                let highlightedEndedAtIndex = null;
                 domDisplaySlots.forEach((slot, slotIndex) => {
                     if (slot.dataset.currentDataId === highlightedProjectId) {
-                        currentHighlightedIndex = slotIndex;
+                        highlightedEndedAtIndex = slotIndex;
                     }
                 });
+                
+                if (highlightedEndedAtIndex !== null) {
+                    currentHighlightedIndex = Math.max(highlightedEndedAtIndex - 1, 0);
+                } else {
+                    currentHighlightedIndex = CENTER_SLOT_INDEX;
+                }
                 
                 // Final update with correct highlighting
                 updateCarouselStylesAndContent();
@@ -367,15 +373,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Update data index immediately
                 currentDataIndex = (currentDataIndex + 1) % researchData.length;
                 
-                // Update content and find new highlighted position
+                // Update content and decide new highlighted position (move highlight to the right neighbor)
                 updateCarouselStylesAndContent();
                 
-                // Find where the highlighted project ended up
+                let highlightedEndedAtIndex = null;
                 domDisplaySlots.forEach((slot, slotIndex) => {
                     if (slot.dataset.currentDataId === highlightedProjectId) {
-                        currentHighlightedIndex = slotIndex;
+                        highlightedEndedAtIndex = slotIndex;
                     }
                 });
+                
+                if (highlightedEndedAtIndex !== null) {
+                    currentHighlightedIndex = Math.min(highlightedEndedAtIndex + 1, NUM_DISPLAY_SLOTS - 1);
+                } else {
+                    currentHighlightedIndex = CENTER_SLOT_INDEX;
+                }
                 
                 // Final update with correct highlighting
                 updateCarouselStylesAndContent();
